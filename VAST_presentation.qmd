@@ -1,0 +1,685 @@
+---
+title: "VAST : WHY, WHAT, HOW"
+author: "Maxime Olmos & Baptiste Alglave"
+format: thinkridentity-revealjs
+---
+
+## WHY
+
+ ~*From Thorson 2019,*<https://doi.org/10.1016/j.fishres.2018.10.013>~\
+
+![](input_images/Table1_VAST.PNG)
+
+## WHAT
+
+-   GLMM *Generalized Mixed effects Models*
+
+    -   Hierarchical models
+
+    -   Measured variables : predictors in a model (ex: measuring and modelling temperature effects on species abundance)
+
+    -   Unmeasured (Latent) Variables: can cause residual spatial correlations
+
+-   Geostatistical GLMM
+
+    -   With spatially correlated random effects are good tools to account for residual spatial correlation
+
+    -   Use the SPDE approach to approximate Gaussian random fields
+
+        -   where the random effects describing the spatial patterning are assumed to be drawn from a multivariate normal distribution,
+
+        -   constrained by covariance functions such as the exponential or Matérn
+
+## WHAT - VAST a geostatistical GLMM among others
+
+![](input_images/INLA.PNG){fig-align="left" width="157"}
+
+![](input_images/vast.PNG){fig-align="center" width="361"}
+
+![](input_images/SDMtmb.PNG){fig-align="right" width="163"}
+
+## WHAT - VAST specifities
+
+![](input_images/Comparison.PNG){fig-align="center" width="630"}
+
+## HOW - VAST outlines
+
+VAST predicts variation in density
+
+-   across multiple locations 𝑠,
+
+-   time intervals 𝑡,
+
+-   for multiple categories 𝑐
+
+    -   multiple species
+
+    -   multiple size/age/sex classes for each individual species
+
+    -   a mix of biological, physical, and fishery variables describing an ecosystem
+
+## HOW : today's workshop
+
+A step by step approach
+
+-   Ex 1 (all together)
+
+    -   A simple example : Index of abundance
+        -   Multiple Years
+        -   Space : Bering Sea
+        -   1 catégorie
+        -   no covariate
+    -   Approach obj/code : you will copy -\> paste
+
+-   Ex 2 (Maxime)
+
+    -   Ex 1 + using different sources of data
+
+-   Ex 3 (Baptiste)
+
+    -   Ex1 + Multiple categories : multivariate analysis
+
+## HOW - A friendly advice
+
+::: incremental
+-   VAST has a LOT of options and can do a lot of things
+
+-   Spatiotemporal models are complex because they combine spatial, temporal and spatiotemporal processes
+
+-   Consequence : I will not present all the case studies and VAST configuration
+
+-   Our workshop strategy : 1 question = 1 model = 1 configuration
+:::
+
+## HOW - Load packages and data
+
+```{r}
+#| echo: true
+#| fig-width: 10
+#| fig-height: 4.5
+# Load packages
+library(VAST);
+library(ggplot2);
+library(dplyr);
+library(viridis);
+library("rnaturalearth");
+library("rnaturalearthdata")
+library(sf);
+library(here)
+theme_set(theme_bw())
+
+# load data
+example = load_example( data_set="EBS_pollock" )
+data_ex1 <- example$sampling_data
+
+# Some spatial stuff
+world <- ne_countries(scale = "medium", returnclass = "sf")
+xlims <-range(pretty(data_ex1$Lon))#range(pretty(Data_Geostat$Lon))
+ylims <-range(pretty(data_ex1$Lat))#range(pretty(Data_Geostat$Lat))
+
+# create dir
+dir <- here()
+dir_ex1 <-  paste0(dir,"/ex1/")
+
+```
+
+## HOW - Ex1 - Data exploration
+
+::: panel-tabset
+### Year Resolution
+
+```{r}
+#| echo: true
+#| fig-width: 10
+#| fig-height: 4.5
+Nber_year <- length(unique(data_ex1$Year))
+min_year <- min(data_ex1$Year)
+max_year <- max(data_ex1$Year)
+
+```
+
+| Number year | starting year | end year |
+|-------------|---------------|----------|
+| 33          | 1982          | 2014     |
+
+### Spatial resolution
+
+```{r}
+#| echo: true
+#| fig-width: 5
+#| fig-height: 5
+p <- ggplot(data_ex1 ) +
+geom_point(aes(Lon, Lat), col="red")+
+geom_sf(data=world, col=NA, fill="black")+
+coord_sf(xlim = xlims, ylim = ylims)
+p
+```
+:::
+
+## HOW - Ex1 - Data type
+
+::: panel-tabset
+### Presence/absence
+
+```{r}
+#| echo: true
+#| fig-width: 10
+#| fig-height: 4.5
+
+year_ex <- c(1990, 2003, 2012)
+p_presabs <- ggplot() +
+geom_point(data=as_tibble(data_ex1) %>% filter(Year %in% year_ex),mapping=aes(Lon, Lat, color= (Catch_KG==0)))  +
+geom_sf(data=world, col=NA, fill="black")+
+coord_sf(xlim = xlims, ylim = ylims)+
+facet_wrap(~Year)
+p_presabs
+
+```
+
+### Intensity (Positive catch rate, catch \>0)
+
+```{r}
+#| echo: true
+#| fig-width: 10
+#| fig-height: 4.5
+p_int <- ggplot() +
+geom_point(data=as_tibble(data_ex1) %>% filter(Year %in% year_ex,Catch_KG > 0),mapping=aes(Lon, Lat, color= log(Catch_KG)))  +
+geom_sf(data=world, col=NA, fill="black")+
+coord_sf(xlim = xlims, ylim = ylims)+
+scale_colour_viridis()+
+facet_wrap(~Year)
+p_int
+
+```
+:::
+
+## HOW - Ex1 - data
+
+::: panel-tabset
+### Data config
+
+REMINDER - Objective : Generating an abundance index using spatiotemporal survey data Region
+
+-   Provide footprint of your region of interest to run SPDE and generate knots
+
+-   3 spatial resolutions :
+
+    -   Data
+
+    -   Inference : knots
+
+    -   Extrapolation
+
+        -   interpolate the predictionss from knotsto extrapolation grid cells, using the triangulated mesh constructed from knots (using INLA)
+
+### Rcode : the grids (1/2)
+
+```{r}
+# ??make_settings()
+settings = make_settings( n_x = 75, #number of knots
+                          Region = example$Region,# the extrapolation grid
+                          purpose = "index2") # index of abundance
+
+```
+
+![](input_images/grids.png){fig-align="center" width="700"}
+
+### Rcode : the grids (2/2)
+
+![](input_images/knot.png){fig-align="center" width="800"}
+:::
+
+## HOW - Ex1 - VAST model
+
+::: incremental
+1.  Model : Latent process
+
+2.  Parameters
+
+    -   Latent spatial terms : Gaussian random field
+    -   Latent temporal terms
+
+3.  Link functions and observation error distributions
+
+4.  Inference
+
+    -   TMB
+:::
+
+## HOW - Ex1 - VAST model
+
+1.  Model : Latent process
+
+GLMM with zero in the data are commonly called delta-model or hurdle models
+
+-   2 predictors
+
+    -   encounter probability
+
+    -   positive catch rate
+
+-   Link functions
+
+    -   encounter probability : logit
+
+    -   positive catch rate : log
+
+-   Observation distribution
+
+    -   encounter probability : binomial
+
+    -   positive catch rate : lognormal (gamma)
+
+## HOW - Ex1 - VAST model
+
+1.  Model : Latent process
+
+::: panel-tabset
+### Poisson Link delta model
+
+Poisson Link delta model are good for biomass data and index standardization. See [Thorson et al 2018](https://cdnsciencepub.com/doi/full/10.1139/cjfas-2017-0266)
+
+$b(i)$ : expected biomass density (nber/area)
+
+$n(i)$ : predictor 1: unmeasured number of this species (biomass/nber)
+
+$w(i)$ : predictor 2: unmeasured biomass-per-individual of this species
+
+$$ 
+E[b(i)] =n(i)w(i)= p(i)r(i)\\
+$$
+
+$p(i)$ is the predicted encounter probability
+
+$$
+p(i)= 1-exp(-a_i × n(i) )  
+$$
+
+$r(i)$ is the predicted biomass given that the species is encountered
+
+$$
+r(i)={a_i×n(i) \over p(i) } × w(i)
+$$
+
+### First linear predictor $n$
+
+
+$$ 
+  \begin{split}
+log(n (i))  = &\underbrace{\ β_1 (t_i)}_{\text{Temporal variation = average temporal effect}} 
++ \underbrace{ ω_1 (s_i)}_{\text{Spatial variation = niche effect}} 
++ \underbrace{ε_1 (s_i,t_i)}_{\text{Spatio-temporal variation = non obs. environmental effects}} \\
+\end{split} 
+$$
+
+### Second linear predictor $w$
+
+
+$$ 
+  \begin{split}
+log(w (i))  = &\underbrace{\ β_2 (t_i)}_{\text{Temporal variation}} 
++ \underbrace{ ω_2 (s_i)}_{\text{Spatial variation}} 
++ \underbrace{ε_2 (s_i,t_i)}_{\text{Spatio-temporal variation}} \\
+\end{split} 
+$$
+:::
+
+## HOW - Ex1 - VAST model
+
+::: incremental
+2.  Parameters :
+
+    -   Gaussian random field : [**random effects**]{.underline} describing the spatial patterning are assumed to be drawn from a [**multivariate normal distribution**]{.underline} constrained by [**covariance functions**]{.underline}
+
+        -   [**Random effect**]{.underline}: each level can be thought of as a random variable from an underlying process or distribution. In a 1D dimension, it means : $$
+              X(p) \sim N( µ ,σ^2) \\
+              or\\
+              X(p)= µ  + ε_p \\
+              ε_p \sim N(0,σ^2) $$
+
+        -   In a 2D we need a [**Multivariate normal distribution**]{.underline} $$ X(p,p+i) \sim MVN(0,Σ) $$ with $Σ$ the covariance matrix, represent how density spatially co-vary
+:::
+
+## HOW - Ex1 - VAST model
+
+2.  Parameters :
+
+    -   Gaussian random field : [**random effects**]{.underline} describing the spatial patterning are assumed to be drawn from a [**multivariate normal distribution**]{.underline} constrained by [**covariance functions**]{.underline}
+
+        -   [**Random effect**]{.underline}: each level can be thought of as a random variable from an underlying process or distribution. In a 1D dimension, it means :
+
+        -   In a 2D we need a [**Multivariate normal distribution**]{.underline}
+
+        -   Matern covariance matrix
+
+![](input_images/matern.png){fig-align="center" width="500"}
+
+## HOW - Ex1 - VAST model
+
+2.  Parameters : Latent Spatial components
+
+::: panel-tabset
+### Spatial random field
+
+$$ 
+  \begin{split}
+ \underbrace{ ω_1 (s_i)}_{\text{Spatial variation in presence/absence}}  \sim MVN(0,Σ_{ω_1})\\
+ \underbrace{ ω_2 (s_i)}_{\text{Spatial variation in positive catch rate}}  \sim MVN(0,Σ_{ω_2})
+\end{split} 
+$$
+
+### VAST code
+
+```{r}
+settings$FieldConfig["Omega","Component_1"] <- "IID"
+settings$FieldConfig["Omega","Component_2"] <- "IID"
+settings$FieldConfig["Omega",]
+```
+:::
+
+## HOW - Ex1 - VAST model
+
+2.  Parameters : Latent Spatiotemporal components
+
+::: panel-tabset
+### Spatiotemporal field
+
+$$ 
+\begin{split}
+ \underbrace{ ε_1 (s_i,t_i)}_{\text{Spatio temporal variation in presence/absence}}  \sim MVN(0,Σ_{ε_1})\\
+ \underbrace{ ε_2 (s_i,t_i)}_{\text{Spatio temporal variation} in positive catch rate}  \sim MVN(0,Σ_{ε_2})
+\end{split}
+$$
+
+### VAST code
+
+```{r}
+settings$FieldConfig["Epsilon","Component_1"] <- "IID"
+settings$FieldConfig["Epsilon","Component_2"] <- "IID"
+settings$FieldConfig["Epsilon",]
+```
+:::
+
+## HOW - Ex1 - VAST model
+
+2.  Parameters : Latent Temporal components
+
+::: panel-tabset
+### Fixed temporal effect : estimated as fixed effect
+
+$$ 
+ \begin{split}
+ \underbrace{\ β_1 (t_i)}_{\text{Average temporal variation in presence/absence}} \\  
+ \\
+ \underbrace{\ β_2 (t_i)}_{\text{Average temporal variation in positive catch rate}}  
+\end{split} 
+$$
+
+### VAST code
+
+```{r}
+settings$FieldConfig["Beta","Component_1"] <- "IID"
+settings$FieldConfig["Beta","Component_2"] <- "IID"
+settings$FieldConfig["Beta",]
+```
+:::
+
+## HOW - Ex1 - VAST model
+
+2.  Parameters : Latent Temporal components
+
+    -   Latent temporal variations is accounted by $β (t_i)$ and $ε(s_i,t_i)$ terms and can be
+
+        -   Fixed effects (for $β_1$ and $β_2$)
+
+        -   Independent among year, ie IID
+
+        -   Random walk
+
+        -   Autoregressive
+
+## HOW - Ex1 - VAST model
+
+3.  **Link functions** and observation error distributions
+
+    -   VAST has different options for the link function (for details see ?VAST::Data_fn)
+    -   In ex1, we have continuous data, so we will use a “Poisson-link” delta-model (See [Thorson et al 2018](https://cdnsciencepub.com/doi/full/10.1139/cjfas-2017-0266) )
+
+::: panel-tabset
+### Theory
+
+$$ 
+E[b(i)] =n(i)w(i)= p(i)r(i)\\
+$$
+
+$p(i)$ is the predicted encounter probability
+
+$$
+p(i)= 1-exp(-a_i × n(i) )  
+$$
+
+$r(i)$ is the predicted biomass given that the species is encountered
+
+$$
+r(i)={a_i×n(i) \over p(i) } × w(i)
+$$
+
+### VAST code
+
+```{r}
+#?VAST::make_data
+settings$ObsModel[2] <-1
+```
+:::
+
+## HOW - Ex1 - VAST model
+
+3.  Link functions and **observation error distributions**
+
+::: panel-tabset
+### Theory
+
+-   There are different user-controlled options for observation models for available sampling data
+
+-   Observation models
+
+    -   for continuous-valued data (e.g., biomass, or numbers standardized to a fixed area),
+
+    -   for count data (e.g., numbers treating area-swept as an offset)
+
+    -   both are parameterized such that the expectation for sampling data $E(B_i )=r_1 (i)×r_2 (i)$
+
+-   For ex1 :
+
+    -   Continuous data : catches
+    -   Zero and positive catches
+
+$$
+Pr⁡(b_i=B)=\begin{cases}
+(1-p(i)&if B=0 \\
+p(i)×g{(B|r (i),σ_m^2 )}&if B>0
+\end{cases}
+$$
+
+### VAST code
+
+```{r}
+#?VAST::make_data
+settings$ObsModel[1] <- 2
+settings$ObsModel[1]
+```
+
+ObsModel\[1\] controls the probability density function $g{(B|r (i),σ_m^2 )}$ used for positive catch rate with expectation $r(i)$ and dispersion $σ_m^2$.
+
+Here $g = LogNormal$.
+:::
+
+## HOW - Ex1 - VAST model
+
+4.  Inference
+
+::: panel-tabset
+### Theroy
+
+-   VAST uses [TMB](https://www.jstatsoft.org/article/view/v070i05): Template mode builder
+-   Models is fit by maximum marginal likelihood
+    -   calculate the marginal log likelihood and its gradient, and the negative log likelihood is minimized via the non-linear optimization routine stats::nlminb() in R
+    -   Random effects are estimated at values that maximize the log likelihood conditional on the estimated fixed effects and are integrated over via the Laplace approximation
+
+### VAST code
+
+```{r}
+#| eval: false
+##?FishStatsUtils::fit_model
+
+fit = fit_model( settings = settings, 
+                 Lat_i = example$sampling_data[,'Lat'], 
+                 Lon_i = example$sampling_data[,'Lon'], 
+                 t_i = example$sampling_data[,'Year'], #years -- time period
+                 c_i = rep(0,nrow(example$sampling_data)), #categories -- just one in this example
+                 b_i = example$sampling_data[,'Catch_KG'], #biomass -- response variable
+                 a_i = example$sampling_data[,'AreaSwept_km2'],working_dir =dir_ex1) #area swept -- metric of effort
+
+# save
+save(fit, file=paste0(dir_ex1,"fit.RData"))
+
+# plot 
+##??FishStatsUtils::plot_maps
+plot( fit, working_dir=dir_ex1, plot_set= c(6,7,16,17) )
+
+```
+:::
+
+## HOW - Ex1 - VAST model
+
+5.  Outputs : Checking Outputs
+
+::: panel-tabset
+### Diagnostics
+
+-   Parameters are away from their bounds
+
+```{r}
+load(here(dir_ex1,"parameter_estimates.RData"))
+unique(parameter_estimates$diagnostics$Param)
+parameter_estimates$diagnostics
+```
+
+### Gradient
+
+-   Maximum Final Grandient for all parameters is less then 10\^-5
+
+```{r}
+load(here(dir_ex1,"parameter_estimates.RData"))
+parameter_estimates$max_gradient
+```
+
+### Convergence check
+
+```{r}
+load(here(dir_ex1,"parameter_estimates.RData"))
+parameter_estimates$Convergence_check
+```
+
+### Hessian
+
+-   Hessian matix is positive definite
+
+```{r}
+load(here(dir_ex1,"fit.RData"))
+fit$parameter_estimates$SD$pdHess
+```
+
+### SD
+
+```{r}
+load(here(dir_ex1,"parameter_estimates.RData"))
+parameter_estimates$SD
+```
+
+### AIC
+
+```{r}
+load(here(dir_ex1,"parameter_estimates.RData"))
+parameter_estimates$AIC
+```
+
+### Quantiles residuals
+
+![](ex1/quantile_residuals.png){fig-align="center" width="800"}
+
+### Quantiles residuals on map
+
+![](ex1/quantile_residuals_on_map.png){fig-align="center"width="800"}
+:::
+
+## HOW - Ex1 - VAST model
+
+5.  Outputs : input data
+
+::: panel-tabset
+
+### Data
+![](ex1/Data_by_year.png){fig-align="center"width="800"}
+
+### Grids
+![](ex1/Data_and_knots.png){fig-align="center"width="800"}
+
+:::
+
+
+## HOW - Ex1 - VAST model
+
+5.  Outputs : Some maps
+
+::: panel-tabset
+
+### Density $b$
+![](ex1/ln_density-predicted.png){fig-align="center" width="800"}
+
+
+### Spatial term pred1 $ω_1$
+![](ex1/omega_1-predicted.png){fig-align="center" width="800"}
+### Spatial term pred2 $ω_2$
+![](ex1/omega_2-predicted.png){fig-align="center" width="800"}
+
+### Spatio temporal term pred1 $ε_1$
+![](ex1/epsilon_1-predicted.png){fig-align="center" width="800"}
+
+### Spatio temporal term pred2 $ε_2$
+![](ex1/epsilon_2-predicted.png){fig-align="center" width="800"}
+
+:::
+
+## HOW - Ex1 - VAST model
+
+5.  Outputs : Some useful quantities
+
+::: panel-tabset
+
+### Index of abundances (biomass)
+
+$$
+b(t,s)=n(t,s)×w(t,s)\\
+I(t)=∑a(s)×b(t,s)
+$$
+![](ex1/Index.png){fig-align="center" width="500"}
+
+### Center of gravity
+![](ex1/center_of_gravity.png){fig-align="center" width="600"}
+
+
+### Effective area
+![](ex1/Effective_area.png){fig-align="center" width="600"}
+
+### Anisotropy
+![](ex1/Aniso.png){fig-align="center" width="500"}
+
+::: 
+
+## HOW - Ex1 - END
+
+
+## HOW - Ex2 - Combining multiple sources of data
+
+
