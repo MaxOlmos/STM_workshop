@@ -98,6 +98,7 @@ A step by step approach
 #| fig-width: 10
 #| fig-height: 4.5
 # Load packages
+
 library(VAST);
 library(ggplot2);
 library(dplyr);
@@ -303,7 +304,6 @@ $$
 
 ### First linear predictor $n$
 
-
 $$ 
   \begin{split}
 log(n (i))  = &\underbrace{\ β_1 (t_i)}_{\text{Temporal variation = average temporal effect}} 
@@ -313,7 +313,6 @@ log(n (i))  = &\underbrace{\ β_1 (t_i)}_{\text{Temporal variation = average tem
 $$
 
 ### Second linear predictor $w$
-
 
 $$ 
   \begin{split}
@@ -610,7 +609,7 @@ parameter_estimates$AIC
 
 ### Quantiles residuals on map
 
-![](ex1/quantile_residuals_on_map.png){fig-align="center"width="800"}
+![](ex1/quantile_residuals_on_map.png){fig-align="center" width="800"}
 :::
 
 ## HOW - Ex1 - VAST model
@@ -618,37 +617,35 @@ parameter_estimates$AIC
 5.  Outputs : input data
 
 ::: panel-tabset
-
 ### Data
-![](ex1/Data_by_year.png){fig-align="center"width="800"}
+
+![](ex1/Data_by_year.png){fig-align="center" width="600"}
 
 ### Grids
-![](ex1/Data_and_knots.png){fig-align="center"width="800"}
 
+![](ex1/Data_and_knots.png){fig-align="center" width="800"}
 :::
-
 
 ## HOW - Ex1 - VAST model
 
 5.  Outputs : Some maps
 
 ::: panel-tabset
-
 ### Density $b$
+
 ![](ex1/ln_density-predicted.png){fig-align="center" width="800"}
 
-
 ### Spatial term pred1 $ω_1$
-![](ex1/omega_1-predicted.png){fig-align="center" width="800"}
-### Spatial term pred2 $ω_2$
-![](ex1/omega_2-predicted.png){fig-align="center" width="800"}
+
+![](ex1/omega_1-predicted.png){fig-align="center" width="800"} \### Spatial term pred2 $ω_2$ ![](ex1/omega_2-predicted.png){fig-align="center" width="800"}
 
 ### Spatio temporal term pred1 $ε_1$
+
 ![](ex1/epsilon_1-predicted.png){fig-align="center" width="800"}
 
 ### Spatio temporal term pred2 $ε_2$
-![](ex1/epsilon_2-predicted.png){fig-align="center" width="800"}
 
+![](ex1/epsilon_2-predicted.png){fig-align="center" width="800"}
 :::
 
 ## HOW - Ex1 - VAST model
@@ -656,30 +653,161 @@ parameter_estimates$AIC
 5.  Outputs : Some useful quantities
 
 ::: panel-tabset
-
 ### Index of abundances (biomass)
 
 $$
 b(t,s)=n(t,s)×w(t,s)\\
 I(t)=∑a(s)×b(t,s)
-$$
-![](ex1/Index.png){fig-align="center" width="500"}
+$$ ![](ex1/Index.png){fig-align="center" width="500"}
 
 ### Center of gravity
+
 ![](ex1/center_of_gravity.png){fig-align="center" width="600"}
 
-
 ### Effective area
+
 ![](ex1/Effective_area.png){fig-align="center" width="600"}
 
 ### Anisotropy
-![](ex1/Aniso.png){fig-align="center" width="500"}
 
-::: 
+![](ex1/Aniso.png){fig-align="center" width="500"}
+:::
 
 ## HOW - Ex1 - END
 
-
 ## HOW - Ex2 - Combining multiple sources of data
 
+Example from [Grüss et al., 2019](https://doi.org/10.1093/icesjms/fsz075)
 
+Spatiotemporal can carry different type of information, spatial resolution 
+
+::: panel-tabset
+
+### Spatiotemporal Resolutions
+```{r}
+#| echo: true
+#| fig-width: 10
+#| fig-height: 4.5
+
+example = load_example( data_set="multimodal_red_snapper" )
+data_ex2 <- example$sampling_data
+
+# spatial stuff
+xlims2 <-range(pretty(data_ex2$Lon))#range(pretty(Data_Geostat$Lon))
+ylims2 <-range(pretty(data_ex2$Lat))#range(pretty(Data_Geostat$Lat))
+
+
+# nber years
+Nber_year <- length(unique(data_ex2$Year))
+min_year <- min(data_ex2$Year)
+max_year <- max(data_ex2$Year)
+
+```
+
+| Number year | starting year | end year |
+|-------------|---------------|----------|
+| 6           | 2006          | 2014     |
+
+### Spatial resolution
+```{r}
+#| echo: true
+#| fig-width: 5
+#| fig-height: 5
+p2 <- ggplot(data_ex2 ) +
+geom_point(aes(Lon, Lat), col="red")+
+geom_sf(data=world, col=NA, fill="black")+
+coord_sf(xlim = xlims2, ylim = ylims2)
+p2
+```
+:::
+
+## HOW - Ex2 - Combining multiple sources of data
+::: panel-tabset
+
+### Biomass : Pres/Abs
+```{r}
+#| echo: true
+#| fig-width: 10
+#| fig-height: 4.5
+
+year_ex <- c(2006,2010,2014)
+p_presabs_ex2 <- ggplot() +
+geom_point(data=as_tibble(data_ex2) %>% filter(Data_type=="Biomass_KG", Year %in% year_ex),mapping=aes(Lon, Lat, color= (Response_variable==0)))  +
+geom_sf(data=world, col=NA, fill="black")+
+coord_sf(xlim = xlims2, ylim = ylims2)+
+facet_wrap(~Year)
+p_presabs_ex2
+
+```
+
+### Biomass : Positive catch
+```{r}
+#| echo: true
+#| fig-width: 10
+#| fig-height: 4.5
+
+year_ex <- c(2006,2010,2014)
+p_int_ex2 <- ggplot() +
+geom_point(data=as_tibble(data_ex2) %>% filter(Data_type=="Biomass_KG",Year %in% year_ex,Response_variable > 0),mapping=aes(Lon, Lat, color= log(Response_variable)))  +
+geom_sf(data=world, col=NA, fill="black")+
+coord_sf(xlim = xlims2, ylim = ylims2)+
+scale_colour_viridis()+
+facet_wrap(~Year)
+p_int_ex2
+
+```
+
+
+### Count
+```{r}
+#| echo: true
+#| fig-width: 10
+#| fig-height: 4.5
+
+year_ex <- c(2006,2010,2014)
+p_count_ex2 <- ggplot() +
+geom_point(data=as_tibble(data_ex2) %>% filter(Data_type=="Count",Year %in% year_ex,Response_variable > 0),mapping=aes(Lon, Lat, color= log(Response_variable)))  +
+geom_sf(data=world, col=NA, fill="black")+
+coord_sf(xlim = xlims2, ylim = ylims2)+
+scale_colour_viridis()+
+facet_wrap(~Year)
+
+p_count_ex2
+
+```
+
+
+### Encounter
+
+```{r}
+#| echo: true
+#| fig-width: 10
+#| fig-height: 4.5
+
+year_ex <- c(2006,2010,2014)
+p_encount_ex2 <- ggplot() +
+geom_point(data=as_tibble(data_ex2) %>% filter(Data_type=="Encounter",Year %in% year_ex,Response_variable > 0),mapping=aes(Lon, Lat, color= log(Response_variable)))  +
+geom_sf(data=world, col=NA, fill="black")+
+coord_sf(xlim = xlims2, ylim = ylims2)+
+scale_colour_viridis()+
+facet_wrap(~Year)
+
+p_encount_ex2
+
+```
+
+::: 
+
+## HOW - Ex2 - Combining multiple sources of data
+::: panel-tabset
+
+### Biomass : Pres/Abs
+
+### Biomass : Positive catch
+
+### Count
+
+### Encounter
+
+
+::: 

@@ -507,28 +507,29 @@ Maxime Olmos &amp; Baptiste Alglave
 <details>
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># Load packages</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(VAST);</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(ggplot2);</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(dplyr);</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(viridis);</span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">library</span>(<span class="st">"rnaturalearth"</span>);</span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="fu">library</span>(<span class="st">"rnaturalearthdata"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="fu">library</span>(sf);</span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="fu">library</span>(here)</span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
-<span id="cb1-11"><a href="#cb1-11"></a></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="co"># load data</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a>example <span class="ot">=</span> <span class="fu">load_example</span>( <span class="at">data_set=</span><span class="st">"EBS_pollock"</span> )</span>
-<span id="cb1-14"><a href="#cb1-14"></a>data_ex1 <span class="ot">&lt;-</span> example<span class="sc">$</span>sampling_data</span>
-<span id="cb1-15"><a href="#cb1-15"></a></span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="co"># Some spatial stuff</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a>world <span class="ot">&lt;-</span> <span class="fu">ne_countries</span>(<span class="at">scale =</span> <span class="st">"medium"</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>)</span>
-<span id="cb1-18"><a href="#cb1-18"></a>xlims <span class="ot">&lt;-</span><span class="fu">range</span>(<span class="fu">pretty</span>(data_ex1<span class="sc">$</span>Lon))<span class="co">#range(pretty(Data_Geostat$Lon))</span></span>
-<span id="cb1-19"><a href="#cb1-19"></a>ylims <span class="ot">&lt;-</span><span class="fu">range</span>(<span class="fu">pretty</span>(data_ex1<span class="sc">$</span>Lat))<span class="co">#range(pretty(Data_Geostat$Lat))</span></span>
-<span id="cb1-20"><a href="#cb1-20"></a></span>
-<span id="cb1-21"><a href="#cb1-21"></a><span class="co"># create dir</span></span>
-<span id="cb1-22"><a href="#cb1-22"></a>dir <span class="ot">&lt;-</span> <span class="fu">here</span>()</span>
-<span id="cb1-23"><a href="#cb1-23"></a>dir_ex1 <span class="ot">&lt;-</span>  <span class="fu">paste0</span>(dir,<span class="st">"/ex1/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(VAST);</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(ggplot2);</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(dplyr);</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">library</span>(viridis);</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="fu">library</span>(<span class="st">"rnaturalearth"</span>);</span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="fu">library</span>(<span class="st">"rnaturalearthdata"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="fu">library</span>(sf);</span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co"># load data</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a>example <span class="ot">=</span> <span class="fu">load_example</span>( <span class="at">data_set=</span><span class="st">"EBS_pollock"</span> )</span>
+<span id="cb1-15"><a href="#cb1-15"></a>data_ex1 <span class="ot">&lt;-</span> example<span class="sc">$</span>sampling_data</span>
+<span id="cb1-16"><a href="#cb1-16"></a></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="co"># Some spatial stuff</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a>world <span class="ot">&lt;-</span> <span class="fu">ne_countries</span>(<span class="at">scale =</span> <span class="st">"medium"</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>)</span>
+<span id="cb1-19"><a href="#cb1-19"></a>xlims <span class="ot">&lt;-</span><span class="fu">range</span>(<span class="fu">pretty</span>(data_ex1<span class="sc">$</span>Lon))<span class="co">#range(pretty(Data_Geostat$Lon))</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a>ylims <span class="ot">&lt;-</span><span class="fu">range</span>(<span class="fu">pretty</span>(data_ex1<span class="sc">$</span>Lat))<span class="co">#range(pretty(Data_Geostat$Lat))</span></span>
+<span id="cb1-21"><a href="#cb1-21"></a></span>
+<span id="cb1-22"><a href="#cb1-22"></a><span class="co"># create dir</span></span>
+<span id="cb1-23"><a href="#cb1-23"></a>dir <span class="ot">&lt;-</span> <span class="fu">here</span>()</span>
+<span id="cb1-24"><a href="#cb1-24"></a>dir_ex1 <span class="ot">&lt;-</span>  <span class="fu">paste0</span>(dir,<span class="st">"/ex1/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -1314,7 +1315,7 @@ attr(,"logarithm")
 <div id="tabset-12-1">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ex1/Data_by_year.png" width="800"></p>
+<p><img data-src="ex1/Data_by_year.png" width="600"></p>
 </figure>
 </div>
 </div>
@@ -1406,6 +1407,144 @@ I(t)=∑a(s)×b(t,s)
 </section>
 <section id="how---ex2---combining-multiple-sources-of-data" class="slide level2">
 <h2>HOW - Ex2 - Combining multiple sources of data</h2>
+<p>Example from <a href="https://doi.org/10.1093/icesjms/fsz075">Grüss et al., 2019</a></p>
+<p>Spatiotemporal can carry different type of information, spatial resolution</p>
+<div class="panel-tabset">
+<ul id="tabset-15" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-15-1">Spatiotemporal Resolutions</a></li><li><a href="#tabset-15-2">Spatial resolution</a></li></ul>
+<div class="tab-content">
+<div id="tabset-15-1">
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>example <span class="ot">=</span> <span class="fu">load_example</span>( <span class="at">data_set=</span><span class="st">"multimodal_red_snapper"</span> )</span>
+<span id="cb31-2"><a href="#cb31-2"></a>data_ex2 <span class="ot">&lt;-</span> example<span class="sc">$</span>sampling_data</span>
+<span id="cb31-3"><a href="#cb31-3"></a></span>
+<span id="cb31-4"><a href="#cb31-4"></a><span class="co"># spatial stuff</span></span>
+<span id="cb31-5"><a href="#cb31-5"></a>xlims2 <span class="ot">&lt;-</span><span class="fu">range</span>(<span class="fu">pretty</span>(data_ex2<span class="sc">$</span>Lon))<span class="co">#range(pretty(Data_Geostat$Lon))</span></span>
+<span id="cb31-6"><a href="#cb31-6"></a>ylims2 <span class="ot">&lt;-</span><span class="fu">range</span>(<span class="fu">pretty</span>(data_ex2<span class="sc">$</span>Lat))<span class="co">#range(pretty(Data_Geostat$Lat))</span></span>
+<span id="cb31-7"><a href="#cb31-7"></a></span>
+<span id="cb31-8"><a href="#cb31-8"></a></span>
+<span id="cb31-9"><a href="#cb31-9"></a><span class="co"># nber years</span></span>
+<span id="cb31-10"><a href="#cb31-10"></a>Nber_year <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(data_ex2<span class="sc">$</span>Year))</span>
+<span id="cb31-11"><a href="#cb31-11"></a>min_year <span class="ot">&lt;-</span> <span class="fu">min</span>(data_ex2<span class="sc">$</span>Year)</span>
+<span id="cb31-12"><a href="#cb31-12"></a>max_year <span class="ot">&lt;-</span> <span class="fu">max</span>(data_ex2<span class="sc">$</span>Year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th>Number year</th>
+<th>starting year</th>
+<th>end year</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>6</td>
+<td>2006</td>
+<td>2014</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tabset-15-2">
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_ex2 ) <span class="sc">+</span></span>
+<span id="cb32-2"><a href="#cb32-2"></a><span class="fu">geom_point</span>(<span class="fu">aes</span>(Lon, Lat), <span class="at">col=</span><span class="st">"red"</span>)<span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3"></a><span class="fu">geom_sf</span>(<span class="at">data=</span>world, <span class="at">col=</span><span class="cn">NA</span>, <span class="at">fill=</span><span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4"></a><span class="fu">coord_sf</span>(<span class="at">xlim =</span> xlims2, <span class="at">ylim =</span> ylims2)</span>
+<span id="cb32-5"><a href="#cb32-5"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img data-src="VAST_presentation_files/figure-revealjs/unnamed-chunk-20-1.png" width="480"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="how---ex2---combining-multiple-sources-of-data-1" class="slide level2">
+<h2>HOW - Ex2 - Combining multiple sources of data</h2>
+<div class="panel-tabset">
+<ul id="tabset-16" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-16-1">Biomass : Pres/Abs</a></li><li><a href="#tabset-16-2">Biomass : Positive catch</a></li><li><a href="#tabset-16-3">Count</a></li><li><a href="#tabset-16-4">Encounter</a></li></ul>
+<div class="tab-content">
+<div id="tabset-16-1">
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>year_ex <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2006</span>,<span class="dv">2010</span>,<span class="dv">2014</span>)</span>
+<span id="cb33-2"><a href="#cb33-2"></a>p_presabs_ex2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb33-3"><a href="#cb33-3"></a><span class="fu">geom_point</span>(<span class="at">data=</span><span class="fu">as_tibble</span>(data_ex2) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Data_type<span class="sc">==</span><span class="st">"Biomass_KG"</span>, Year <span class="sc">%in%</span> year_ex),<span class="at">mapping=</span><span class="fu">aes</span>(Lon, Lat, <span class="at">color=</span> (Response_variable<span class="sc">==</span><span class="dv">0</span>)))  <span class="sc">+</span></span>
+<span id="cb33-4"><a href="#cb33-4"></a><span class="fu">geom_sf</span>(<span class="at">data=</span>world, <span class="at">col=</span><span class="cn">NA</span>, <span class="at">fill=</span><span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb33-5"><a href="#cb33-5"></a><span class="fu">coord_sf</span>(<span class="at">xlim =</span> xlims2, <span class="at">ylim =</span> ylims2)<span class="sc">+</span></span>
+<span id="cb33-6"><a href="#cb33-6"></a><span class="fu">facet_wrap</span>(<span class="sc">~</span>Year)</span>
+<span id="cb33-7"><a href="#cb33-7"></a>p_presabs_ex2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img data-src="VAST_presentation_files/figure-revealjs/unnamed-chunk-21-1.png" width="960"></p>
+</div>
+</div>
+</div>
+<div id="tabset-16-2">
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>year_ex <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2006</span>,<span class="dv">2010</span>,<span class="dv">2014</span>)</span>
+<span id="cb34-2"><a href="#cb34-2"></a>p_int_ex2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3"></a><span class="fu">geom_point</span>(<span class="at">data=</span><span class="fu">as_tibble</span>(data_ex2) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Data_type<span class="sc">==</span><span class="st">"Biomass_KG"</span>,Year <span class="sc">%in%</span> year_ex,Response_variable <span class="sc">&gt;</span> <span class="dv">0</span>),<span class="at">mapping=</span><span class="fu">aes</span>(Lon, Lat, <span class="at">color=</span> <span class="fu">log</span>(Response_variable)))  <span class="sc">+</span></span>
+<span id="cb34-4"><a href="#cb34-4"></a><span class="fu">geom_sf</span>(<span class="at">data=</span>world, <span class="at">col=</span><span class="cn">NA</span>, <span class="at">fill=</span><span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb34-5"><a href="#cb34-5"></a><span class="fu">coord_sf</span>(<span class="at">xlim =</span> xlims2, <span class="at">ylim =</span> ylims2)<span class="sc">+</span></span>
+<span id="cb34-6"><a href="#cb34-6"></a><span class="fu">scale_colour_viridis</span>()<span class="sc">+</span></span>
+<span id="cb34-7"><a href="#cb34-7"></a><span class="fu">facet_wrap</span>(<span class="sc">~</span>Year)</span>
+<span id="cb34-8"><a href="#cb34-8"></a>p_int_ex2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img data-src="VAST_presentation_files/figure-revealjs/unnamed-chunk-22-1.png" width="960"></p>
+</div>
+</div>
+</div>
+<div id="tabset-16-3">
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>year_ex <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2006</span>,<span class="dv">2010</span>,<span class="dv">2014</span>)</span>
+<span id="cb35-2"><a href="#cb35-2"></a>p_count_ex2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb35-3"><a href="#cb35-3"></a><span class="fu">geom_point</span>(<span class="at">data=</span><span class="fu">as_tibble</span>(data_ex2) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Data_type<span class="sc">==</span><span class="st">"Count"</span>,Year <span class="sc">%in%</span> year_ex,Response_variable <span class="sc">&gt;</span> <span class="dv">0</span>),<span class="at">mapping=</span><span class="fu">aes</span>(Lon, Lat, <span class="at">color=</span> <span class="fu">log</span>(Response_variable)))  <span class="sc">+</span></span>
+<span id="cb35-4"><a href="#cb35-4"></a><span class="fu">geom_sf</span>(<span class="at">data=</span>world, <span class="at">col=</span><span class="cn">NA</span>, <span class="at">fill=</span><span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb35-5"><a href="#cb35-5"></a><span class="fu">coord_sf</span>(<span class="at">xlim =</span> xlims2, <span class="at">ylim =</span> ylims2)<span class="sc">+</span></span>
+<span id="cb35-6"><a href="#cb35-6"></a><span class="fu">scale_colour_viridis</span>()<span class="sc">+</span></span>
+<span id="cb35-7"><a href="#cb35-7"></a><span class="fu">facet_wrap</span>(<span class="sc">~</span>Year)</span>
+<span id="cb35-8"><a href="#cb35-8"></a></span>
+<span id="cb35-9"><a href="#cb35-9"></a>p_count_ex2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img data-src="VAST_presentation_files/figure-revealjs/unnamed-chunk-23-1.png" width="960"></p>
+</div>
+</div>
+</div>
+<div id="tabset-16-4">
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>year_ex <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2006</span>,<span class="dv">2010</span>,<span class="dv">2014</span>)</span>
+<span id="cb36-2"><a href="#cb36-2"></a>p_encount_ex2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb36-3"><a href="#cb36-3"></a><span class="fu">geom_point</span>(<span class="at">data=</span><span class="fu">as_tibble</span>(data_ex2) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Data_type<span class="sc">==</span><span class="st">"Encounter"</span>,Year <span class="sc">%in%</span> year_ex,Response_variable <span class="sc">&gt;</span> <span class="dv">0</span>),<span class="at">mapping=</span><span class="fu">aes</span>(Lon, Lat, <span class="at">color=</span> <span class="fu">log</span>(Response_variable)))  <span class="sc">+</span></span>
+<span id="cb36-4"><a href="#cb36-4"></a><span class="fu">geom_sf</span>(<span class="at">data=</span>world, <span class="at">col=</span><span class="cn">NA</span>, <span class="at">fill=</span><span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb36-5"><a href="#cb36-5"></a><span class="fu">coord_sf</span>(<span class="at">xlim =</span> xlims2, <span class="at">ylim =</span> ylims2)<span class="sc">+</span></span>
+<span id="cb36-6"><a href="#cb36-6"></a><span class="fu">scale_colour_viridis</span>()<span class="sc">+</span></span>
+<span id="cb36-7"><a href="#cb36-7"></a><span class="fu">facet_wrap</span>(<span class="sc">~</span>Year)</span>
+<span id="cb36-8"><a href="#cb36-8"></a></span>
+<span id="cb36-9"><a href="#cb36-9"></a>p_encount_ex2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img data-src="VAST_presentation_files/figure-revealjs/unnamed-chunk-24-1.png" width="960"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class="footer footer-default">
 
 </div>
