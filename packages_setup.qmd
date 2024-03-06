@@ -1,0 +1,138 @@
+---
+title: "Packages installation"
+authors: "Max Olmos & Baptiste Alglave"
+date: "02/20/2024"
+editor: visual
+theme:
+  dark: darkly
+  light: flatly
+highlight-style: github
+format:
+  html:
+    documentclass: article
+    papersize: letter
+    toc: true
+    number-sections: true
+    colorlinks: true
+    geometry:
+      - top=30mm
+      - left=20mm
+      - heightrounded
+    code-annotations: false
+    code-tools: true
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+    embed-resources: true
+---
+
+------------------------------------------------------------------------
+
+# Some info
+
+Please make sure you have the correct version of R and packages installed. Please make sure all packages works well on your computer.
+
+We will not take time to install packages during the workshop, we expect all participants to have VAST installed and running.
+
+If you are facing issues while installing R or packages please contact Baptiste [baptiste.alglave\@univ-ubs.fr](baptiste.alglave@univ-ubs.fr), [**before**]{.underline} the workshop
+
+# R and Rstudio versions
+
+## R
+
+R version 4.3.2 (Eye Holes). You can find it [here](https://cran.r-project.org/src/base/R-4/)
+
+*The latest R version is R-4.3.3 (Angel Food Cakeo). But they made it available while we were preparing the workshop on February 29 2024. So please use R 4.3.2.*
+
+## Rstudio version
+
+Version RStudio-2023.12.1-402.exe
+
+# Packages
+
+## VAST
+
+First, install the "devtools" package from CRAN
+
+```{r}
+#| eval: false
+
+# Install and load devtools package
+install.packages("devtools")
+library("devtools")
+
+```
+
+Next, please install the VAST package from the VAST GitHub repository using a function in the "devtools" package. This may require using the INSTALL_opts option depending upon your version of R:
+
+```{r}
+#| eval: false
+
+# Install package
+install_github("james-thorson/VAST@main", INSTALL_opts="--no-staged-install")
+# Load package
+library(VAST)
+
+```
+
+If you are having problems with installation, please consider installing dependencies individually, e.g. using:
+
+```{r}
+#| eval: false
+# Install TMB from CRAN
+install.packages("TMB")
+# Install INLA using currently recommended method
+install.packages("INLA", repos=c(getOption("repos"), INLA="https://inla.r-inla-download.org/R/stable"), dep=TRUE)
+# Install FishStatsUtils from CRAN
+install_github("james-thorson/FishStatsUtils@main", INSTALL_opts="--no-staged-install")
+
+```
+
+Finally, please confirm that VAST is installed by running a model, e.g., following the simple example .
+
+```{r}
+#| eval: false
+
+# Load package
+library(VAST)
+
+# load data set
+# see `?load_example` for list of stocks with example data 
+# that are installed automatically with `FishStatsUtils`. 
+example = load_example( data_set="EBS_pollock" )
+
+# Make settings (turning off bias.correct to save time for example)
+settings = make_settings( n_x = 100, 
+  Region = example$Region, 
+  purpose = "index2", 
+  bias.correct = FALSE )
+
+# Run model
+fit = fit_model( settings = settings, 
+  Lat_i = example$sampling_data[,'Lat'], 
+  Lon_i = example$sampling_data[,'Lon'], 
+  t_i = example$sampling_data[,'Year'], 
+  b_i = example$sampling_data[,'Catch_KG'], 
+  a_i = example$sampling_data[,'AreaSwept_km2'] )
+
+# Plot results
+plot( fit )
+
+```
+
+
+More details about installation instructions can be found [here](https://github.com/James-Thorson-NOAA/VAST?tab=readme-ov-file#installation-instructions)
+
+## Other packages 
+
+```{r}
+#| eval: false
+
+library(ggplot2)
+library(dplyr)
+library(viridis)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(mapdata)
+library(sf)
+library(here)
+```
