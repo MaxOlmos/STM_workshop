@@ -119,10 +119,9 @@ plot( fit )
 
 ```
 
-
 More details about installation instructions can be found [here](https://github.com/James-Thorson-NOAA/VAST?tab=readme-ov-file#installation-instructions)
 
-## Other packages 
+## Other packages
 
 ```{r}
 #| eval: false

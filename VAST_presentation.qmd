@@ -6,7 +6,7 @@ format: thinkridentity-revealjs
 
 ## WHY
 
- ~*From Thorson 2019,*<https://doi.org/10.1016/j.fishres.2018.10.013>~\
+ \~*From Thorson 2019,* <https://doi.org/10.1016/j.fishres.2018.10.013>\~\
 
 ![](input_images/Table1_VAST.PNG)
 
@@ -39,6 +39,8 @@ format: thinkridentity-revealjs
 ![](input_images/SDMtmb.PNG){fig-align="right" width="163"}
 
 ## WHAT - VAST specifities
+
+\~*From Anderson et al.2023,* <https://doi.org/10.1101/2022.03.24.485545>\~\
 
 ![](input_images/Comparison.PNG){fig-align="center" width="630"}
 
@@ -280,11 +282,11 @@ GLMM with zero in the data are commonly called delta-model or hurdle models
 
 Poisson Link delta model are good for biomass data and index standardization. See [Thorson et al 2018](https://cdnsciencepub.com/doi/full/10.1139/cjfas-2017-0266)
 
-$b(i)$ : expected biomass density (nber/area)
+$b(i)$ : expected biomass density (biomass/area)
 
-$n(i)$ : predictor 1: unmeasured number of this species (biomass/nber)
+$n(i)$ : predictor 1: unmeasured number of this species (nber/area)
 
-$w(i)$ : predictor 2: unmeasured biomass-per-individual of this species
+$w(i)$ : predictor 2: unmeasured biomass-per-individual of this species (biomass/nber)
 
 $$ 
 E[b(i)] =n(i)w(i)= p(i)r(i)\\
@@ -331,12 +333,12 @@ $$
     -   Gaussian random field : [**random effects**]{.underline} describing the spatial patterning are assumed to be drawn from a [**multivariate normal distribution**]{.underline} constrained by [**covariance functions**]{.underline}
 
         -   [**Random effect**]{.underline}: each level can be thought of as a random variable from an underlying process or distribution. In a 1D dimension, it means : $$
-              X(p) \sim N( µ ,σ^2) \\
+              X_p \sim N( µ ,σ^2) \\
               or\\
-              X(p)= µ  + ε_p \\
+              X_p= µ  + ε_p \\
               ε_p \sim N(0,σ^2) $$
 
-        -   In a 2D we need a [**Multivariate normal distribution**]{.underline} $$ X(p,p+i) \sim MVN(0,Σ) $$ with $Σ$ the covariance matrix, represent how density spatially co-vary
+        -   In a 2D we need a [**Multivariate normal distribution**]{.underline} $$ X_p \sim MVN(0,Σ) $$ with $Σ$ the covariance matrix, represent how density spatially co-vary
 :::
 
 ## HOW - Ex1 - VAST model
@@ -619,11 +621,11 @@ parameter_estimates$AIC
 ::: panel-tabset
 ### Data
 
-![](ex1/Data_by_year.png){fig-align="center" width="600"}
+![](ex1/Data_by_year.png){fig-align="center" width="500"}
 
 ### Grids
 
-![](ex1/Data_and_knots.png){fig-align="center" width="800"}
+![](ex1/Data_and_knots.png){fig-align="center" width="600"}
 :::
 
 ## HOW - Ex1 - VAST model
@@ -633,19 +635,23 @@ parameter_estimates$AIC
 ::: panel-tabset
 ### Density $b$
 
-![](ex1/ln_density-predicted.png){fig-align="center" width="800"}
+![](ex1/ln_density-predicted.png){fig-align="center" width="600"}
 
 ### Spatial term pred1 $ω_1$
 
-![](ex1/omega_1-predicted.png){fig-align="center" width="800"} \### Spatial term pred2 $ω_2$ ![](ex1/omega_2-predicted.png){fig-align="center" width="800"}
+![](ex1/omega_1-predicted.png){fig-align="center" width="800"}
+
+### Spatial term pred2 $ω_2$
+
+![](ex1/omega_2-predicted.png){fig-align="center" width="800"}
 
 ### Spatio temporal term pred1 $ε_1$
 
-![](ex1/epsilon_1-predicted.png){fig-align="center" width="800"}
+![](ex1/epsilon_1-predicted.png){fig-align="center" width="600"}
 
 ### Spatio temporal term pred2 $ε_2$
 
-![](ex1/epsilon_2-predicted.png){fig-align="center" width="800"}
+![](ex1/epsilon_2-predicted.png){fig-align="center" width="600"}
 :::
 
 ## HOW - Ex1 - VAST model
@@ -658,7 +664,9 @@ parameter_estimates$AIC
 $$
 b(t,s)=n(t,s)×w(t,s)\\
 I(t)=∑a(s)×b(t,s)
-$$ ![](ex1/Index.png){fig-align="center" width="500"}
+$$
+
+![](ex1/Index.png){fig-align="center" width="500"}
 
 ### Center of gravity
 
@@ -679,16 +687,21 @@ $$ ![](ex1/Index.png){fig-align="center" width="500"}
 
 Example from [Grüss et al., 2019](https://doi.org/10.1093/icesjms/fsz075)
 
-Spatiotemporal can carry different type of information, spatial resolution 
+Spatiotemporal can carry different type of information, spatial resolution
 
 ::: panel-tabset
-
 ### Spatiotemporal Resolutions
+
 ```{r}
 #| echo: true
 #| fig-width: 10
 #| fig-height: 4.5
 
+# new dir
+dir <- here()
+dir_ex2 <-  paste0(dir,"/ex2/")
+
+# load data
 example = load_example( data_set="multimodal_red_snapper" )
 data_ex2 <- example$sampling_data
 
@@ -709,6 +722,7 @@ max_year <- max(data_ex2$Year)
 | 6           | 2006          | 2014     |
 
 ### Spatial resolution
+
 ```{r}
 #| echo: true
 #| fig-width: 5
@@ -722,9 +736,10 @@ p2
 :::
 
 ## HOW - Ex2 - Combining multiple sources of data
-::: panel-tabset
 
+::: panel-tabset
 ### Biomass : Pres/Abs
+
 ```{r}
 #| echo: true
 #| fig-width: 10
@@ -741,6 +756,7 @@ p_presabs_ex2
 ```
 
 ### Biomass : Positive catch
+
 ```{r}
 #| echo: true
 #| fig-width: 10
@@ -757,8 +773,8 @@ p_int_ex2
 
 ```
 
-
 ### Count
+
 ```{r}
 #| echo: true
 #| fig-width: 10
@@ -775,7 +791,6 @@ facet_wrap(~Year)
 p_count_ex2
 
 ```
-
 
 ### Encounter
 
@@ -795,19 +810,434 @@ facet_wrap(~Year)
 p_encount_ex2
 
 ```
+:::
 
-::: 
+## HOW - Ex2 - Combining multiple sources of data - Processes to fit the data
 
-## HOW - Ex2 - Combining multiple sources of data
 ::: panel-tabset
+### Biomass : $B$
 
-### Biomass : Pres/Abs
+Poisson Link delta model
 
-### Biomass : Positive catch
+$$ 
+E[b(i)] =n(i)w(i)= p(i)r(i)\\
+$$
 
-### Count
+$p(i)$ is the predicted encounter probability
 
-### Encounter
+$$
+p(i)= 1-exp(-a_i × n(i) )  
+$$
 
+$r(i)$ is the predicted biomass given that the species is encountered
 
-::: 
+$$
+r(i)={a_i×n(i) \over p(i) } × w(i)
+$$
+
+$$
+Pr⁡(b_i=B)=\begin{cases}
+(1-p(i)&if B=0 \\
+p(i)×g{(B|r (i),σ_m^2 )}&if B>0
+\end{cases}
+$$
+
+### Count $C$
+
+Poisson distribution : with intensity equal to local numbers-density X area sampled. But count samples are fequesntly overdispersed relative to predictions of local density $n$; Magnitude of overdispersion is estimated using a lognormal-Poisson distribution
+
+$$
+C \sim Poisson(\lambda(i)) \\
+\lambda(i) = a(i)n(s_i, t_i)×e^{\delta(i)}\\
+\delta(i) \sim N(0, \sigma²obs)
+$$
+
+### Encounter $R$
+
+Encounter/non-encounter data $R$can take the value $0$ (not encountered) or $1$ (encountered).
+
+When fitting to encounter/non-encounter data, we assume that the spatial distribution of individuals in the neighbourhood of sampling is random, such that the probability to encounter at least one individual follows a Poisson distribution with intensity equal to local numbers-densities X area sampled.
+
+This results in a Bernoulli distribution with an encounter probability $p(i)$ using a complementary log–log link function given log numbers-density, $log(n(s,t))$ ⁠:
+
+$$ R \sim Bernouilli(p(i)) \\
+$p(i)$ is the predicted encounter probability $$
+:::
+
+## HOW - Ex2 - Combining multiple sources of data - Processes to fit the data
+
+Levels of catchability covariate
+
+```{r}
+#| echo: true
+#| 
+levels(data_ex2$Data_type)
+data_ex2$Data_type<- factor(data_ex2$Data_type, levels = c( "Biomass_KG","Encounter","Count") )
+levels(data_ex2$Data_type)
+```
+
+::: panel-tabset
+### Biomass : $B$
+
+```{r}
+#| echo: true
+
+# Make settings
+settings = make_settings( n_x = 200,Region = example$Region,purpose = "index2",  strata.limits = example$strata.limits )
+levels(data_ex2$Data_type)
+
+# Change `ObsModel` to indicate type of data for level of `e_i`
+settings$ObsModel = cbind( c(2,13,14), 1 )
+
+```
+
+### Count $C$
+
+```{r}
+#| echo: true
+
+levels(data_ex2$Data_type)
+
+# Change `ObsModel` to indicate type of data for level of `e_i`
+settings$ObsModel = cbind( c(2,13,14), 1 )
+
+```
+
+### Encounter $R$
+
+```{r}
+#| echo: true
+
+levels(data_ex2$Data_type)
+
+# Change `ObsModel` to indicate type of data for level of `e_i`
+settings$ObsModel = cbind( c(2,13,14), 1 )
+
+```
+:::
+
+## HOW - Ex2 - Combining multiple sources of data - Predictors
+
+::: panel-tabset
+### First linear predictor $n$
+
+$$ 
+  \begin{split}
+log(n (i))  = &\underbrace{\ β_1 (t_i)}_{\text{Temporal variation}} 
++ \underbrace{ ω_1 (s_i)}_{\text{Spatial variation}} 
++ \underbrace{ε_1 (s_i,t_i)}_{\text{Spatio-temporal variation}} 
++ \underbrace{ \sum_{m = 1 }^{nm} \gamma_m G(i,m)}_{\text{effect of monitoring programs on $log(n(i))$ }} \\
+\end{split} 
+$$
+
+### Second linear predictor $w$
+
+$$ 
+  \begin{split}
+log(w (i))  = &\underbrace{\ β_2 (t_i)}_{\text{Temporal variation}} 
++ \underbrace{ ω_2 (s_i)}_{\text{Spatial variation}} 
++ \underbrace{ε_2 (s_i,t_i)}_{\text{Spatio-temporal variation}} \\
+\end{split} 
+$$
+:::
+
+## HOW - Ex2 - Combining multiple sources of data - Predictors
+
+::: panel-tabset
+### First linear predictor $n$
+
+-   Componenent 1
+
+```{r}
+#| echo: true
+
+settings$FieldConfig[,"Component_1"]
+```
+
+-   Add a design matrix $G(i,m)$ representing differences in catchability relative to a reference (biomass-sampling) gear
+
+The design matrix is such that is 1 for the monitoring program that collected sample i and 0 otherwise, and the monitoring program effect $\gamma_m$ is such that $\gamma_m = 0$ for the monitoring program $m$ associated with the largest sample size to allow for the identifiability of all parameters $\gamma$
+
+```{r}
+#| echo: true
+catchability_data = data_ex2[,'Data_type',drop=FALSE]
+Q1_formula = ~ factor(Data_type)
+```
+
+-   What is the matrix model ?
+
+```{r}
+#| echo: true
+## What does the formula do ?
+Q1_formula_toshow =  model.matrix(~ factor(Data_type),data_ex2)
+head(Q1_formula_toshow)
+```
+
+### Second linear predictor $w$
+
+```{r}
+#| echo: true
+settings$FieldConfig[,"Component_2"]
+```
+:::
+
+## HOW - Ex2 - Combining multiple sources of data - Run model
+
+```{r}
+#| eval: false
+
+# Run model
+
+fit = fit_model( settings = settings,
+  Lat_i = data_ex2[,'Lat'],
+  Lon_i = data_ex2[,'Lon'],
+  t_i = data_ex2[,'Year'],
+  c_i = rep(0,nrow(data_ex2)),
+  b_i = data_ex2[,'Response_variable'],
+  a_i = data_ex2[,'AreaSwept_km2'],
+  e_i = as.numeric(data_ex2[,'Data_type'])-1, # to link to `ObsModel` to indicate type of data for level 
+  Q1_formula = Q1_formula,
+  catchability_data = catchability_data,working_dir =dir_ex2 )
+
+# save
+save(fit, file=paste0(dir_ex2,"fit.RData"))
+load(paste0(dir_ex2,"fit.RData"))
+
+# plot 
+##??FishStatsUtils::plot_maps
+plot( fit, working_dir=dir_ex2, plot_set= c(3,6,7,16,17))
+```
+
+## HOW - Ex2 - Combining multiple sources of data - Checking Outputs
+
+::: panel-tabset
+### Diagnostics
+
+-   Parameters are away from their bounds
+
+```{r}
+load(here(dir_ex2,"parameter_estimates.RData"))
+unique(parameter_estimates$diagnostics$Param)
+parameter_estimates$diagnostics
+```
+
+### Gradient
+
+-   Maximum Final Grandient for all parameters is less then 10\^-5
+
+```{r}
+load(here(dir_ex2,"parameter_estimates.RData"))
+parameter_estimates$max_gradient
+```
+
+### Convergence check
+
+```{r}
+load(here(dir_ex2,"parameter_estimates.RData"))
+parameter_estimates$Convergence_check
+```
+
+### Hessian
+
+-   Hessian matix is positive definite
+
+```{r}
+load(here(dir_ex2,"fit.RData"))
+fit$parameter_estimates$SD$pdHess
+```
+
+### SD
+
+```{r}
+load(here(dir_ex2,"parameter_estimates.RData"))
+parameter_estimates$SD
+```
+
+### AIC
+
+```{r}
+load(here(dir_ex2,"parameter_estimates.RData"))
+parameter_estimates$AIC
+```
+
+### Quantiles residuals
+
+![](ex2/quantile_residuals.png){fig-align="center" width="800"}
+
+### Quantiles residuals on map
+
+![](ex2/quantile_residuals_on_map.png){fig-align="center" width="800"}
+:::
+
+## HOW - Ex2 - Combining multiple sources of data - Some maps
+
+::: panel-tabset
+### Density $b$
+
+![](ex2/ln_density-predicted.png){fig-align="center" width="600"}
+
+### Spatial term pred1 $ω_1$
+
+![](ex2/omega_1-predicted.png){fig-align="center" width="800"}
+
+### Spatial term pred2 $ω_2$
+
+![](ex2/omega_2-predicted.png){fig-align="center" width="800"}
+
+### Spatio temporal term pred1 $ε_1$
+
+![](ex2/epsilon_1-predicted.png){fig-align="center" width="600"}
+
+### Spatio temporal term pred2 $ε_2$
+
+![](ex2/epsilon_2-predicted.png){fig-align="center" width="600"}
+:::
+
+## HOW - Ex2 - Combining multiple sources of data - Some useful quantities
+
+::: panel-tabset
+### Index of abundances (biomass)
+
+$$
+b(t,s)=n(t,s)×w(t,s)\\
+I(t)=∑a(s)×b(t,s)
+$$
+
+![](ex2/Index.png){fig-align="center" width="500"}
+
+### Center of gravity
+
+![](ex2/center_of_gravity.png){fig-align="center" width="600"}
+
+### Effective area
+
+![](ex2/Effective_area.png){fig-align="center" width="600"}
+
+### Anisotropy
+
+![](ex2/Aniso.png){fig-align="center" width="500"}
+:::
+
+## HOW - Ex2 - Not Combining multiple sources of data : only biomass
+
+```{r}
+#| eval: false
+
+# Run model
+
+# new dir
+dir <- here()
+dir_ex2_1 <-  paste0(dir,"/ex2_1/")
+
+# load data
+example = load_example( data_set="multimodal_red_snapper" )
+data_ex2_1 <- example$sampling_data %>% dplyr::filter(Data_type == "Biomass_KG")
+
+# Make settings
+settings = make_settings( n_x = 250,
+  Region = example$Region,
+  purpose = "index2",
+  strata.limits = example$strata.limits )
+
+# Change `ObsModel` to indicate type of data for level of `e_i`
+settings$ObsModel = c(2,1)
+
+fit = fit_model( settings = settings,
+  Lat_i = data_ex2_1[,'Lat'],
+  Lon_i = data_ex2_1[,'Lon'],
+  t_i = data_ex2_1[,'Year'],
+  c_i = rep(0,nrow(data_ex2_1)),
+  b_i = data_ex2_1[,'Response_variable'],
+  a_i = data_ex2_1[,'AreaSwept_km2'],
+  #e_i = as.numeric(data_ex2[,'Data_type'])-1, # to link to `ObsModel` to indicate type of data for level 
+  #Q1_formula = Q1_formula,
+  #catchability_data = catchability_data,
+  working_dir =dir_ex2_1 )
+
+# save
+save(fit, file=paste0(dir_ex2_1,"fit.RData"))
+
+# plot 
+##??FishStatsUtils::plot_maps
+plot( fit, working_dir=dir_ex2_1, plot_set= c(3,6,7,16,17) )
+
+```
+
+## HOW - Ex2 - Not Combining multiple sources of data : only biomass - some maps
+
+::: panel-tabset
+### Density $b$
+
+![](ex2_1/ln_density-predicted.png){fig-align="center" width="600"}
+
+### Spatial term pred1 $ω_1$
+
+![](ex2_1/omega_1-predicted.png){fig-align="center" width="800"}
+
+### Spatial term pred2 $ω_2$
+
+![](ex2_1/omega_2-predicted.png){fig-align="center" width="800"}
+
+### Spatio temporal term pred1 $ε_1$
+
+![](ex2_1/epsilon_1-predicted.png){fig-align="center" width="600"}
+
+### Spatio temporal term pred2 $ε_2$
+
+![](ex2_1/epsilon_2-predicted.png){fig-align="center" width="600"}
+:::
+
+## HOW - Ex2 - Not Combining multiple sources of data : only biomass - Some useful quantities
+
+::: panel-tabset
+### Index of abundances (biomass)
+
+$$
+b(t,s)=n(t,s)×w(t,s)\\
+I(t)=∑a(s)×b(t,s)
+$$
+
+![](ex2_1/Index.png){fig-align="center" width="500"}
+
+### Center of gravity
+
+![](ex2_1/center_of_gravity.png){fig-align="center" width="600"}
+
+### Effective area
+
+![](ex2_1/Effective_area.png){fig-align="center" width="600"}
+
+### Anisotropy
+
+![](ex2_1/Aniso.png){fig-align="center" width="500"}
+:::
+
+## AND THEN ?
+
+::: incremental
+-   We are building a spatiotemporal modelling community on the West coast of France
+
+    -   Important to be **in person**
+    -   Should we extend to the all country ?
+
+-   A workshop every semester ?
+
+-   Multiple days ?
+
+-   What should be the next workshop
+
+    -   Other case studies from the organisation committee using VAST
+
+    -   Participants bring case studies with a specific question
+
+-   Packages
+
+    -   not using packages but coding
+    -   not using VAST
+        -   sdmTMB
+        -   INLA
+        -   tinyVAST ( I am moving to [tinyVAST](https://vast-lib.github.io/tinyVAST/))
+    -   A mix of everything
+
+-   Other suggestions ?
+:::

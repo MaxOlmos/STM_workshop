@@ -405,7 +405,7 @@ Maxime Olmos &amp; Baptiste Alglave
 </section>
 <section id="why" class="slide level2">
 <h2>WHY</h2>
-<p>&nbsp;<sub><em>From&nbsp;Thorson&nbsp;2019,</em><a href="https://doi.org/10.1016/j.fishres.2018.10.013" class="uri">https://doi.org/10.1016/j.fishres.2018.10.013</a></sub><br>
+<p>&nbsp;~<em>From&nbsp;Thorson&nbsp;2019,</em> <a href="https://doi.org/10.1016/j.fishres.2018.10.013" class="uri">https://doi.org/10.1016/j.fishres.2018.10.013</a>~<br>
 </p>
 
 <img data-src="input_images/Table1_VAST.PNG" class="r-stretch"></section>
@@ -449,6 +449,8 @@ Maxime Olmos &amp; Baptiste Alglave
 </section>
 <section id="what---vast-specifities" class="slide level2">
 <h2>WHAT - VAST specifities</h2>
+<p>~<em>From&nbsp;Anderson et al.2023,</em> <a href="https://doi.org/10.1101/2022.03.24.485545" class="uri">https://doi.org/10.1101/2022.03.24.485545</a>~<br>
+</p>
 
 <img data-src="input_images/Comparison.PNG" width="630" class="r-stretch quarto-figure-center"></section>
 <section id="how---vast-outlines" class="slide level2">
@@ -722,9 +724,9 @@ Maxime Olmos &amp; Baptiste Alglave
 <div class="tab-content">
 <div id="tabset-4-1">
 <p>Poisson Link delta model are good for biomass data and index standardization. See <a href="https://cdnsciencepub.com/doi/full/10.1139/cjfas-2017-0266">Thorson et al 2018</a></p>
-<p><span class="math inline">\(b(i)\)</span> : expected biomass density (nber/area)</p>
-<p><span class="math inline">\(n(i)\)</span> : predictor 1: unmeasured number of this species (biomass/nber)</p>
-<p><span class="math inline">\(w(i)\)</span> : predictor 2: unmeasured biomass-per-individual of this species</p>
+<p><span class="math inline">\(b(i)\)</span> : expected biomass density (biomass/area)</p>
+<p><span class="math inline">\(n(i)\)</span> : predictor 1: unmeasured number of this species (nber/area)</p>
+<p><span class="math inline">\(w(i)\)</span> : predictor 2: unmeasured biomass-per-individual of this species (biomass/nber)</p>
 <p><span class="math display">\[
 E[b(i)] =n(i)w(i)= p(i)r(i)\\
 \]</span></p>
@@ -767,11 +769,11 @@ log(w (i))  = &amp;\underbrace{\ β_2 (t_i)}_{\text{Temporal variation}}
 <li class="fragment"><p>Gaussian random field : <u><strong>random effects</strong></u> describing the spatial patterning are assumed to be drawn from a <u><strong>multivariate normal distribution</strong></u> constrained by <u><strong>covariance functions</strong></u></p>
 <ul>
 <li class="fragment"><p><u><strong>Random effect</strong></u>: each level can be thought of as a random variable from an underlying process or distribution. In a 1D dimension, it means : <span class="math display">\[
-  X(p) \sim N( µ ,σ^2) \\
+  X_p \sim N( µ ,σ^2) \\
   or\\
-  X(p)= µ  + ε_p \\
+  X_p= µ  + ε_p \\
   ε_p \sim N(0,σ^2) \]</span></p></li>
-<li class="fragment"><p>In a 2D we need a <u><strong>Multivariate normal distribution</strong></u> <span class="math display">\[ X(p,p+i) \sim MVN(0,Σ) \]</span> with <span class="math inline">\(Σ\)</span> the covariance matrix, represent how density spatially co-vary</p></li>
+<li class="fragment"><p>In a 2D we need a <u><strong>Multivariate normal distribution</strong></u> <span class="math display">\[ X_p \sim MVN(0,Σ) \]</span> with <span class="math inline">\(Σ\)</span> the covariance matrix, represent how density spatially co-vary</p></li>
 </ul></li>
 </ul></li>
 </ol>
@@ -1315,14 +1317,14 @@ attr(,"logarithm")
 <div id="tabset-12-1">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ex1/Data_by_year.png" width="600"></p>
+<p><img data-src="ex1/Data_by_year.png" width="500"></p>
 </figure>
 </div>
 </div>
 <div id="tabset-12-2">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ex1/Data_and_knots.png" width="800"></p>
+<p><img data-src="ex1/Data_and_knots.png" width="600"></p>
 </figure>
 </div>
 </div>
@@ -1335,29 +1337,40 @@ attr(,"logarithm")
 <li>Outputs : Some maps</li>
 </ol>
 <div class="panel-tabset">
-<ul id="tabset-13" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-13-1">Density <span class="math inline">\(b\)</span></a></li><li><a href="#tabset-13-2">Spatial term pred1 <span class="math inline">\(ω_1\)</span></a></li><li><a href="#tabset-13-3">Spatio temporal term pred1 <span class="math inline">\(ε_1\)</span></a></li><li><a href="#tabset-13-4">Spatio temporal term pred2 <span class="math inline">\(ε_2\)</span></a></li></ul>
+<ul id="tabset-13" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-13-1">Density <span class="math inline">\(b\)</span></a></li><li><a href="#tabset-13-2">Spatial term pred1 <span class="math inline">\(ω_1\)</span></a></li><li><a href="#tabset-13-3">Spatial term pred2 <span class="math inline">\(ω_2\)</span></a></li><li><a href="#tabset-13-4">Spatio temporal term pred1 <span class="math inline">\(ε_1\)</span></a></li><li><a href="#tabset-13-5">Spatio temporal term pred2 <span class="math inline">\(ε_2\)</span></a></li></ul>
 <div class="tab-content">
 <div id="tabset-13-1">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ex1/ln_density-predicted.png" width="800"></p>
+<p><img data-src="ex1/ln_density-predicted.png" width="600"></p>
 </figure>
 </div>
 </div>
 <div id="tabset-13-2">
-<p><img data-src="ex1/omega_1-predicted.png" data-fig-align="center" width="800"> ### Spatial term pred2 <span class="math inline">\(ω_2\)</span> <img data-src="ex1/omega_2-predicted.png" data-fig-align="center" width="800"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex1/omega_1-predicted.png" width="800"></p>
+</figure>
+</div>
 </div>
 <div id="tabset-13-3">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ex1/epsilon_1-predicted.png" width="800"></p>
+<p><img data-src="ex1/omega_2-predicted.png" width="800"></p>
 </figure>
 </div>
 </div>
 <div id="tabset-13-4">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ex1/epsilon_2-predicted.png" width="800"></p>
+<p><img data-src="ex1/epsilon_1-predicted.png" width="600"></p>
+</figure>
+</div>
+</div>
+<div id="tabset-13-5">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex1/epsilon_2-predicted.png" width="600"></p>
 </figure>
 </div>
 </div>
@@ -1376,7 +1389,12 @@ attr(,"logarithm")
 <p><span class="math display">\[
 b(t,s)=n(t,s)×w(t,s)\\
 I(t)=∑a(s)×b(t,s)
-\]</span> <img data-src="ex1/Index.png" data-fig-align="center" width="500"></p>
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex1/Index.png" width="500"></p>
+</figure>
+</div>
 </div>
 <div id="tabset-14-2">
 <div class="quarto-figure quarto-figure-center">
@@ -1416,18 +1434,23 @@ I(t)=∑a(s)×b(t,s)
 <div class="cell">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>example <span class="ot">=</span> <span class="fu">load_example</span>( <span class="at">data_set=</span><span class="st">"multimodal_red_snapper"</span> )</span>
-<span id="cb31-2"><a href="#cb31-2"></a>data_ex2 <span class="ot">&lt;-</span> example<span class="sc">$</span>sampling_data</span>
-<span id="cb31-3"><a href="#cb31-3"></a></span>
-<span id="cb31-4"><a href="#cb31-4"></a><span class="co"># spatial stuff</span></span>
-<span id="cb31-5"><a href="#cb31-5"></a>xlims2 <span class="ot">&lt;-</span><span class="fu">range</span>(<span class="fu">pretty</span>(data_ex2<span class="sc">$</span>Lon))<span class="co">#range(pretty(Data_Geostat$Lon))</span></span>
-<span id="cb31-6"><a href="#cb31-6"></a>ylims2 <span class="ot">&lt;-</span><span class="fu">range</span>(<span class="fu">pretty</span>(data_ex2<span class="sc">$</span>Lat))<span class="co">#range(pretty(Data_Geostat$Lat))</span></span>
-<span id="cb31-7"><a href="#cb31-7"></a></span>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># new dir</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a>dir <span class="ot">&lt;-</span> <span class="fu">here</span>()</span>
+<span id="cb31-3"><a href="#cb31-3"></a>dir_ex2 <span class="ot">&lt;-</span>  <span class="fu">paste0</span>(dir,<span class="st">"/ex2/"</span>)</span>
+<span id="cb31-4"><a href="#cb31-4"></a></span>
+<span id="cb31-5"><a href="#cb31-5"></a><span class="co"># load data</span></span>
+<span id="cb31-6"><a href="#cb31-6"></a>example <span class="ot">=</span> <span class="fu">load_example</span>( <span class="at">data_set=</span><span class="st">"multimodal_red_snapper"</span> )</span>
+<span id="cb31-7"><a href="#cb31-7"></a>data_ex2 <span class="ot">&lt;-</span> example<span class="sc">$</span>sampling_data</span>
 <span id="cb31-8"><a href="#cb31-8"></a></span>
-<span id="cb31-9"><a href="#cb31-9"></a><span class="co"># nber years</span></span>
-<span id="cb31-10"><a href="#cb31-10"></a>Nber_year <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(data_ex2<span class="sc">$</span>Year))</span>
-<span id="cb31-11"><a href="#cb31-11"></a>min_year <span class="ot">&lt;-</span> <span class="fu">min</span>(data_ex2<span class="sc">$</span>Year)</span>
-<span id="cb31-12"><a href="#cb31-12"></a>max_year <span class="ot">&lt;-</span> <span class="fu">max</span>(data_ex2<span class="sc">$</span>Year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-9"><a href="#cb31-9"></a><span class="co"># spatial stuff</span></span>
+<span id="cb31-10"><a href="#cb31-10"></a>xlims2 <span class="ot">&lt;-</span><span class="fu">range</span>(<span class="fu">pretty</span>(data_ex2<span class="sc">$</span>Lon))<span class="co">#range(pretty(Data_Geostat$Lon))</span></span>
+<span id="cb31-11"><a href="#cb31-11"></a>ylims2 <span class="ot">&lt;-</span><span class="fu">range</span>(<span class="fu">pretty</span>(data_ex2<span class="sc">$</span>Lat))<span class="co">#range(pretty(Data_Geostat$Lat))</span></span>
+<span id="cb31-12"><a href="#cb31-12"></a></span>
+<span id="cb31-13"><a href="#cb31-13"></a></span>
+<span id="cb31-14"><a href="#cb31-14"></a><span class="co"># nber years</span></span>
+<span id="cb31-15"><a href="#cb31-15"></a>Nber_year <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(data_ex2<span class="sc">$</span>Year))</span>
+<span id="cb31-16"><a href="#cb31-16"></a>min_year <span class="ot">&lt;-</span> <span class="fu">min</span>(data_ex2<span class="sc">$</span>Year)</span>
+<span id="cb31-17"><a href="#cb31-17"></a>max_year <span class="ot">&lt;-</span> <span class="fu">max</span>(data_ex2<span class="sc">$</span>Year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <table>
@@ -1544,6 +1567,666 @@ I(t)=∑a(s)×b(t,s)
 </div>
 </div>
 </div>
+</div>
+</section>
+<section id="how---ex2---combining-multiple-sources-of-data---processes-to-fit-the-data" class="slide level2">
+<h2>HOW - Ex2 - Combining multiple sources of data - Processes to fit the data</h2>
+<div class="panel-tabset">
+<ul id="tabset-17" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-17-1">Biomass : <span class="math inline">\(B\)</span></a></li><li><a href="#tabset-17-2">Count <span class="math inline">\(C\)</span></a></li><li><a href="#tabset-17-3">Encounter <span class="math inline">\(R\)</span></a></li></ul>
+<div class="tab-content">
+<div id="tabset-17-1">
+<p>Poisson Link delta model</p>
+<p><span class="math display">\[
+E[b(i)] =n(i)w(i)= p(i)r(i)\\
+\]</span></p>
+<p><span class="math inline">\(p(i)\)</span> is the predicted encounter probability</p>
+<p><span class="math display">\[
+p(i)= 1-exp(-a_i × n(i) )  
+\]</span></p>
+<p><span class="math inline">\(r(i)\)</span> is the predicted biomass given that the species is encountered</p>
+<p><span class="math display">\[
+r(i)={a_i×n(i) \over p(i) } × w(i)
+\]</span></p>
+<p><span class="math display">\[
+Pr⁡(b_i=B)=\begin{cases}
+(1-p(i)&amp;if B=0 \\
+p(i)×g{(B|r (i),σ_m^2 )}&amp;if B&gt;0
+\end{cases}
+\]</span></p>
+</div>
+<div id="tabset-17-2">
+<p>Poisson distribution : with intensity equal to local numbers-density X area sampled. But count samples are fequesntly overdispersed relative to predictions of local density <span class="math inline">\(n\)</span>; Magnitude of overdispersion is estimated using a lognormal-Poisson distribution</p>
+<p><span class="math display">\[
+C \sim Poisson(\lambda(i)) \\
+\lambda(i) = a(i)n(s_i, t_i)×e^{\delta(i)}\\
+\delta(i) \sim N(0, \sigma²obs)
+\]</span></p>
+</div>
+<div id="tabset-17-3">
+<p>Encounter/non-encounter data <span class="math inline">\(R\)</span>can take the value <span class="math inline">\(0\)</span> (not encountered) or <span class="math inline">\(1\)</span> (encountered).</p>
+<p>When fitting to encounter/non-encounter data, we assume that the spatial distribution of individuals in the neighbourhood of sampling is random, such that the probability to encounter at least one individual follows a Poisson distribution with intensity equal to local numbers-densities X area sampled.</p>
+<p>This results in a Bernoulli distribution with an encounter probability <span class="math inline">\(p(i)\)</span> using a complementary log–log link function given log numbers-density, <span class="math inline">\(log(n(s,t))\)</span> ⁠:</p>
+<p><span class="math display">\[ R \sim Bernouilli(p(i)) \\
+$p(i)$ is the predicted encounter probability \]</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="how---ex2---combining-multiple-sources-of-data---processes-to-fit-the-data-1" class="slide level2">
+<h2>HOW - Ex2 - Combining multiple sources of data - Processes to fit the data</h2>
+<p>Levels of catchability covariate</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="fu">levels</span>(data_ex2<span class="sc">$</span>Data_type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Encounter"  "Count"      "Biomass_KG"</code></pre>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a>data_ex2<span class="sc">$</span>Data_type<span class="ot">&lt;-</span> <span class="fu">factor</span>(data_ex2<span class="sc">$</span>Data_type, <span class="at">levels =</span> <span class="fu">c</span>( <span class="st">"Biomass_KG"</span>,<span class="st">"Encounter"</span>,<span class="st">"Count"</span>) )</span>
+<span id="cb39-2"><a href="#cb39-2"></a><span class="fu">levels</span>(data_ex2<span class="sc">$</span>Data_type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Biomass_KG" "Encounter"  "Count"     </code></pre>
+</div>
+</div>
+<div class="panel-tabset">
+<ul id="tabset-18" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-18-1">Biomass : <span class="math inline">\(B\)</span></a></li><li><a href="#tabset-18-2">Count <span class="math inline">\(C\)</span></a></li><li><a href="#tabset-18-3">Encounter <span class="math inline">\(R\)</span></a></li></ul>
+<div class="tab-content">
+<div id="tabset-18-1">
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a><span class="co"># Make settings</span></span>
+<span id="cb41-2"><a href="#cb41-2"></a>settings <span class="ot">=</span> <span class="fu">make_settings</span>( <span class="at">n_x =</span> <span class="dv">200</span>,<span class="at">Region =</span> example<span class="sc">$</span>Region,<span class="at">purpose =</span> <span class="st">"index2"</span>,  <span class="at">strata.limits =</span> example<span class="sc">$</span>strata.limits )</span>
+<span id="cb41-3"><a href="#cb41-3"></a><span class="fu">levels</span>(data_ex2<span class="sc">$</span>Data_type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Biomass_KG" "Encounter"  "Count"     </code></pre>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a><span class="co"># Change `ObsModel` to indicate type of data for level of `e_i`</span></span>
+<span id="cb43-2"><a href="#cb43-2"></a>settings<span class="sc">$</span>ObsModel <span class="ot">=</span> <span class="fu">cbind</span>( <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">13</span>,<span class="dv">14</span>), <span class="dv">1</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<div id="tabset-18-2">
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="fu">levels</span>(data_ex2<span class="sc">$</span>Data_type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Biomass_KG" "Encounter"  "Count"     </code></pre>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a><span class="co"># Change `ObsModel` to indicate type of data for level of `e_i`</span></span>
+<span id="cb46-2"><a href="#cb46-2"></a>settings<span class="sc">$</span>ObsModel <span class="ot">=</span> <span class="fu">cbind</span>( <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">13</span>,<span class="dv">14</span>), <span class="dv">1</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<div id="tabset-18-3">
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a><span class="fu">levels</span>(data_ex2<span class="sc">$</span>Data_type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Biomass_KG" "Encounter"  "Count"     </code></pre>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a><span class="co"># Change `ObsModel` to indicate type of data for level of `e_i`</span></span>
+<span id="cb49-2"><a href="#cb49-2"></a>settings<span class="sc">$</span>ObsModel <span class="ot">=</span> <span class="fu">cbind</span>( <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">13</span>,<span class="dv">14</span>), <span class="dv">1</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="how---ex2---combining-multiple-sources-of-data---predictors" class="slide level2">
+<h2>HOW - Ex2 - Combining multiple sources of data - Predictors</h2>
+<div class="panel-tabset">
+<ul id="tabset-19" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-19-1">First linear predictor <span class="math inline">\(n\)</span></a></li><li><a href="#tabset-19-2">Second linear predictor <span class="math inline">\(w\)</span></a></li></ul>
+<div class="tab-content">
+<div id="tabset-19-1">
+<p><span class="math display">\[
+  \begin{split}
+log(n (i))  = &amp;\underbrace{\ β_1 (t_i)}_{\text{Temporal variation}}
++ \underbrace{ ω_1 (s_i)}_{\text{Spatial variation}}
++ \underbrace{ε_1 (s_i,t_i)}_{\text{Spatio-temporal variation}}
++ \underbrace{ \sum_{m = 1 }^{nm} \gamma_m G(i,m)}_{\text{effect of monitoring programs on $log(n(i))$ }} \\
+\end{split}
+\]</span></p>
+</div>
+<div id="tabset-19-2">
+<p><span class="math display">\[
+  \begin{split}
+log(w (i))  = &amp;\underbrace{\ β_2 (t_i)}_{\text{Temporal variation}}
++ \underbrace{ ω_2 (s_i)}_{\text{Spatial variation}}
++ \underbrace{ε_2 (s_i,t_i)}_{\text{Spatio-temporal variation}} \\
+\end{split}
+\]</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="how---ex2---combining-multiple-sources-of-data---predictors-1" class="slide level2">
+<h2>HOW - Ex2 - Combining multiple sources of data - Predictors</h2>
+<div class="panel-tabset">
+<ul id="tabset-20" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-20-1">First linear predictor <span class="math inline">\(n\)</span></a></li><li><a href="#tabset-20-2">Second linear predictor <span class="math inline">\(w\)</span></a></li></ul>
+<div class="tab-content">
+<div id="tabset-20-1">
+<ul>
+<li>Componenent 1</li>
+</ul>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a>settings<span class="sc">$</span>FieldConfig[,<span class="st">"Component_1"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Omega Epsilon    Beta 
+  "IID"   "IID"   "IID" </code></pre>
+</div>
+</div>
+<ul>
+<li>Add a design matrix <span class="math inline">\(G(i,m)\)</span> representing differences in catchability relative to a reference (biomass-sampling) gear</li>
+</ul>
+<p>The design matrix is such that is 1 for the monitoring program that collected sample i and 0 otherwise, and the monitoring program effect <span class="math inline">\(\gamma_m\)</span> is such that <span class="math inline">\(\gamma_m = 0\)</span> for the monitoring program <span class="math inline">\(m\)</span> associated with the largest sample size to allow for the identifiability of all parameters <span class="math inline">\(\gamma\)</span></p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a>catchability_data <span class="ot">=</span> data_ex2[,<span class="st">'Data_type'</span>,drop<span class="ot">=</span><span class="cn">FALSE</span>]</span>
+<span id="cb52-2"><a href="#cb52-2"></a>Q1_formula <span class="ot">=</span> <span class="er">~</span> <span class="fu">factor</span>(Data_type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ul>
+<li>What is the matrix model ?</li>
+</ul>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a><span class="do">## What does the formula do ?</span></span>
+<span id="cb53-2"><a href="#cb53-2"></a>Q1_formula_toshow <span class="ot">=</span>  <span class="fu">model.matrix</span>(<span class="sc">~</span> <span class="fu">factor</span>(Data_type),data_ex2)</span>
+<span id="cb53-3"><a href="#cb53-3"></a><span class="fu">head</span>(Q1_formula_toshow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  (Intercept) factor(Data_type)Encounter factor(Data_type)Count
+1           1                          0                      0
+2           1                          0                      0
+3           1                          0                      0
+4           1                          0                      0
+5           1                          0                      0
+6           1                          0                      0</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-20-2">
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a>settings<span class="sc">$</span>FieldConfig[,<span class="st">"Component_2"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Omega Epsilon    Beta 
+  "IID"   "IID"   "IID" </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="how---ex2---combining-multiple-sources-of-data---run-model" class="slide level2">
+<h2>HOW - Ex2 - Combining multiple sources of data - Run model</h2>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a><span class="co"># Run model</span></span>
+<span id="cb57-2"><a href="#cb57-2"></a></span>
+<span id="cb57-3"><a href="#cb57-3"></a>fit <span class="ot">=</span> <span class="fu">fit_model</span>( <span class="at">settings =</span> settings,</span>
+<span id="cb57-4"><a href="#cb57-4"></a>  <span class="at">Lat_i =</span> data_ex2[,<span class="st">'Lat'</span>],</span>
+<span id="cb57-5"><a href="#cb57-5"></a>  <span class="at">Lon_i =</span> data_ex2[,<span class="st">'Lon'</span>],</span>
+<span id="cb57-6"><a href="#cb57-6"></a>  <span class="at">t_i =</span> data_ex2[,<span class="st">'Year'</span>],</span>
+<span id="cb57-7"><a href="#cb57-7"></a>  <span class="at">c_i =</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">nrow</span>(data_ex2)),</span>
+<span id="cb57-8"><a href="#cb57-8"></a>  <span class="at">b_i =</span> data_ex2[,<span class="st">'Response_variable'</span>],</span>
+<span id="cb57-9"><a href="#cb57-9"></a>  <span class="at">a_i =</span> data_ex2[,<span class="st">'AreaSwept_km2'</span>],</span>
+<span id="cb57-10"><a href="#cb57-10"></a>  <span class="at">e_i =</span> <span class="fu">as.numeric</span>(data_ex2[,<span class="st">'Data_type'</span>])<span class="sc">-</span><span class="dv">1</span>, <span class="co"># to link to `ObsModel` to indicate type of data for level </span></span>
+<span id="cb57-11"><a href="#cb57-11"></a>  <span class="at">Q1_formula =</span> Q1_formula,</span>
+<span id="cb57-12"><a href="#cb57-12"></a>  <span class="at">catchability_data =</span> catchability_data,<span class="at">working_dir =</span>dir_ex2 )</span>
+<span id="cb57-13"><a href="#cb57-13"></a></span>
+<span id="cb57-14"><a href="#cb57-14"></a><span class="co"># save</span></span>
+<span id="cb57-15"><a href="#cb57-15"></a><span class="fu">save</span>(fit, <span class="at">file=</span><span class="fu">paste0</span>(dir_ex2,<span class="st">"fit.RData"</span>))</span>
+<span id="cb57-16"><a href="#cb57-16"></a><span class="fu">load</span>(<span class="fu">paste0</span>(dir_ex2,<span class="st">"fit.RData"</span>))</span>
+<span id="cb57-17"><a href="#cb57-17"></a></span>
+<span id="cb57-18"><a href="#cb57-18"></a><span class="co"># plot </span></span>
+<span id="cb57-19"><a href="#cb57-19"></a><span class="do">##??FishStatsUtils::plot_maps</span></span>
+<span id="cb57-20"><a href="#cb57-20"></a><span class="fu">plot</span>( fit, <span class="at">working_dir=</span>dir_ex2, <span class="at">plot_set=</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">16</span>,<span class="dv">17</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="how---ex2---combining-multiple-sources-of-data---checking-outputs" class="slide level2">
+<h2>HOW - Ex2 - Combining multiple sources of data - Checking Outputs</h2>
+<div class="panel-tabset">
+<ul id="tabset-21" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-21-1">Diagnostics</a></li><li><a href="#tabset-21-2">Gradient</a></li><li><a href="#tabset-21-3">Convergence check</a></li><li><a href="#tabset-21-4">Hessian</a></li><li><a href="#tabset-21-5">SD</a></li><li><a href="#tabset-21-6">AIC</a></li><li><a href="#tabset-21-7">Quantiles residuals</a></li><li><a href="#tabset-21-8">Quantiles residuals on map</a></li></ul>
+<div class="tab-content">
+<div id="tabset-21-1">
+<ul>
+<li>Parameters are away from their bounds</li>
+</ul>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1"></a><span class="fu">load</span>(<span class="fu">here</span>(dir_ex2,<span class="st">"parameter_estimates.RData"</span>))</span>
+<span id="cb58-2"><a href="#cb58-2"></a><span class="fu">unique</span>(parameter_estimates<span class="sc">$</span>diagnostics<span class="sc">$</span>Param)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "ln_H_input"   "beta1_ft"     "lambda1_k"    "L_omega1_z"   "L_epsilon1_z"
+ [6] "logkappa1"    "beta2_ft"     "L_omega2_z"   "L_epsilon2_z" "logkappa2"   
+[11] "logSigmaM"   </code></pre>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1"></a>parameter_estimates<span class="sc">$</span>diagnostics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Param starting_value     Lower         MLE     Upper final_gradient
+1    ln_H_input     0.57355022 -5.000000  0.57331827  5.000000   3.205304e-06
+2    ln_H_input     0.08451330 -5.000000  0.08451587  5.000000   3.072250e-07
+3      beta1_ft     0.25771694      -Inf  0.25633287       Inf   7.219081e-08
+4      beta1_ft     0.12247298      -Inf  0.12106050       Inf   2.018284e-07
+5      beta1_ft     0.07694479      -Inf  0.07554936       Inf   1.591008e-07
+6      beta1_ft     0.22580254      -Inf  0.22439415       Inf   2.443165e-07
+7      beta1_ft     0.07531065      -Inf  0.07390356       Inf   1.585146e-07
+8      beta1_ft     0.28083236      -Inf  0.27944351       Inf   7.414870e-08
+9      beta1_ft     0.42772640      -Inf  0.42631881       Inf   1.241922e-08
+10     beta1_ft     0.14908201      -Inf  0.14766726       Inf   1.384700e-07
+11     beta1_ft     0.29382476      -Inf  0.29244006       Inf   3.479827e-07
+12    lambda1_k    -1.57673037      -Inf -1.57673751       Inf   3.268232e-07
+13    lambda1_k    -0.59963159      -Inf -0.59963091       Inf   6.748175e-07
+14   L_omega1_z     2.20584664      -Inf  2.20599406       Inf  -2.255606e-06
+15 L_epsilon1_z     0.23877859      -Inf  0.23875590       Inf  -1.900967e-06
+16    logkappa1    -4.27290810 -6.414748 -4.27311453 -2.684068   1.013391e-06
+17     beta2_ft     4.70483403      -Inf  4.70482524       Inf  -4.791860e-08
+18     beta2_ft     5.12983981      -Inf  5.12981396       Inf   4.401780e-07
+19     beta2_ft     4.64950034      -Inf  4.64946066       Inf  -1.284256e-07
+20     beta2_ft     5.11153659      -Inf  5.11151999       Inf  -7.868993e-07
+21     beta2_ft     4.98326543      -Inf  4.98324300       Inf  -2.673574e-07
+22     beta2_ft     4.95697552      -Inf  4.95699720       Inf  -2.981986e-07
+23     beta2_ft     4.85216521      -Inf  4.85217866       Inf  -2.596712e-07
+24     beta2_ft     4.69590309      -Inf  4.69591060       Inf  -1.226270e-07
+25     beta2_ft     4.73762730      -Inf  4.73760391       Inf  -4.609798e-08
+26   L_omega2_z     1.77703687      -Inf  1.77632469       Inf  -6.888972e-06
+27 L_epsilon2_z     1.29037796      -Inf  1.28985378       Inf  -1.843633e-05
+28    logkappa2    -2.70447512 -6.414748 -2.70501185 -2.684068   2.196666e-05
+29    logSigmaM     0.14046805      -Inf  0.14047180 10.000000  -2.625736e-05
+30    logSigmaM     0.83169831      -Inf  0.83169755 10.000000  -2.758988e-06
+31    logSigmaM     0.61898767      -Inf  0.61898721 10.000000  -3.187895e-06</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-21-2">
+<ul>
+<li>Maximum Final Grandient for all parameters is less then 10^-5</li>
+</ul>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1"></a><span class="fu">load</span>(<span class="fu">here</span>(dir_ex2,<span class="st">"parameter_estimates.RData"</span>))</span>
+<span id="cb62-2"><a href="#cb62-2"></a>parameter_estimates<span class="sc">$</span>max_gradient</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.625736e-05</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-21-3">
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1"></a><span class="fu">load</span>(<span class="fu">here</span>(dir_ex2,<span class="st">"parameter_estimates.RData"</span>))</span>
+<span id="cb64-2"><a href="#cb64-2"></a>parameter_estimates<span class="sc">$</span>Convergence_check</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "There is no evidence that the model is not converged"</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-21-4">
+<ul>
+<li>Hessian matix is positive definite</li>
+</ul>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1"></a><span class="fu">load</span>(<span class="fu">here</span>(dir_ex2,<span class="st">"fit.RData"</span>))</span>
+<span id="cb66-2"><a href="#cb66-2"></a>fit<span class="sc">$</span>parameter_estimates<span class="sc">$</span>SD<span class="sc">$</span>pdHess</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-21-5">
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1"></a><span class="fu">load</span>(<span class="fu">here</span>(dir_ex2,<span class="st">"parameter_estimates.RData"</span>))</span>
+<span id="cb68-2"><a href="#cb68-2"></a>parameter_estimates<span class="sc">$</span>SD</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>sdreport(.) result
+                Estimate Std. Error
+ln_H_input    0.57331827 0.25417621
+ln_H_input    0.08451587 0.21427592
+beta1_ft      0.25633287 0.69659022
+beta1_ft      0.12106050 0.69324096
+beta1_ft      0.07554936 0.69519769
+beta1_ft      0.22439415 0.69666836
+beta1_ft      0.07390356 0.69801332
+beta1_ft      0.27944351 0.69779370
+beta1_ft      0.42631881 0.69816592
+beta1_ft      0.14766726 0.69991731
+beta1_ft      0.29244006 0.69726397
+lambda1_k    -1.57673751 0.08144211
+lambda1_k    -0.59963091 0.08645132
+L_omega1_z    2.20599406 0.29754318
+L_epsilon1_z  0.23875590 0.04840087
+logkappa1    -4.27311453 0.24288948
+beta2_ft      4.70482524 0.23993461
+beta2_ft      5.12981396 0.24938089
+beta2_ft      4.64946066 0.22978795
+beta2_ft      5.11151999 0.22410169
+beta2_ft      4.98324300 0.23022135
+beta2_ft      4.95699720 0.23279827
+beta2_ft      4.85217866 0.22251496
+beta2_ft      4.69591060 0.24063580
+beta2_ft      4.73760391 0.22100688
+L_omega2_z    1.77632469 0.60269817
+L_epsilon2_z  1.28985378 0.42800596
+logkappa2    -2.70501185 0.45040814
+logSigmaM     0.14047180 0.01297102
+logSigmaM     0.83169755 0.04182093
+logSigmaM     0.61898721 0.03909721
+Maximum gradient component: 2.625736e-05 </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-21-6">
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1"></a><span class="fu">load</span>(<span class="fu">here</span>(dir_ex2,<span class="st">"parameter_estimates.RData"</span>))</span>
+<span id="cb70-2"><a href="#cb70-2"></a>parameter_estimates<span class="sc">$</span>AIC</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 46501.14
+attr(,"logarithm")
+[1] TRUE</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-21-7">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2/quantile_residuals.png" width="800"></p>
+</figure>
+</div>
+</div>
+<div id="tabset-21-8">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2/quantile_residuals_on_map.png" width="800"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="how---ex2---combining-multiple-sources-of-data---some-maps" class="slide level2">
+<h2>HOW - Ex2 - Combining multiple sources of data - Some maps</h2>
+<div class="panel-tabset">
+<ul id="tabset-22" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-22-1">Density <span class="math inline">\(b\)</span></a></li><li><a href="#tabset-22-2">Spatial term pred1 <span class="math inline">\(ω_1\)</span></a></li><li><a href="#tabset-22-3">Spatial term pred2 <span class="math inline">\(ω_2\)</span></a></li><li><a href="#tabset-22-4">Spatio temporal term pred1 <span class="math inline">\(ε_1\)</span></a></li><li><a href="#tabset-22-5">Spatio temporal term pred2 <span class="math inline">\(ε_2\)</span></a></li></ul>
+<div class="tab-content">
+<div id="tabset-22-1">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2/ln_density-predicted.png" width="600"></p>
+</figure>
+</div>
+</div>
+<div id="tabset-22-2">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2/omega_1-predicted.png" width="800"></p>
+</figure>
+</div>
+</div>
+<div id="tabset-22-3">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2/omega_2-predicted.png" width="800"></p>
+</figure>
+</div>
+</div>
+<div id="tabset-22-4">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2/epsilon_1-predicted.png" width="600"></p>
+</figure>
+</div>
+</div>
+<div id="tabset-22-5">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2/epsilon_2-predicted.png" width="600"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="how---ex2---combining-multiple-sources-of-data---some-useful-quantities" class="slide level2">
+<h2>HOW - Ex2 - Combining multiple sources of data - Some useful quantities</h2>
+<div class="panel-tabset">
+<ul id="tabset-23" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-23-1">Index of abundances (biomass)</a></li><li><a href="#tabset-23-2">Center of gravity</a></li><li><a href="#tabset-23-3">Effective area</a></li><li><a href="#tabset-23-4">Anisotropy</a></li></ul>
+<div class="tab-content">
+<div id="tabset-23-1">
+<p><span class="math display">\[
+b(t,s)=n(t,s)×w(t,s)\\
+I(t)=∑a(s)×b(t,s)
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2/Index.png" width="500"></p>
+</figure>
+</div>
+</div>
+<div id="tabset-23-2">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2/center_of_gravity.png" width="600"></p>
+</figure>
+</div>
+</div>
+<div id="tabset-23-3">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2/Effective_area.png" width="600"></p>
+</figure>
+</div>
+</div>
+<div id="tabset-23-4">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2/Aniso.png" width="500"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="how---ex2---not-combining-multiple-sources-of-data-only-biomass" class="slide level2">
+<h2>HOW - Ex2 - Not Combining multiple sources of data : only biomass</h2>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1"></a><span class="co"># Run model</span></span>
+<span id="cb72-2"><a href="#cb72-2"></a></span>
+<span id="cb72-3"><a href="#cb72-3"></a><span class="co"># new dir</span></span>
+<span id="cb72-4"><a href="#cb72-4"></a>dir <span class="ot">&lt;-</span> <span class="fu">here</span>()</span>
+<span id="cb72-5"><a href="#cb72-5"></a>dir_ex2_1 <span class="ot">&lt;-</span>  <span class="fu">paste0</span>(dir,<span class="st">"/ex2_1/"</span>)</span>
+<span id="cb72-6"><a href="#cb72-6"></a></span>
+<span id="cb72-7"><a href="#cb72-7"></a><span class="co"># load data</span></span>
+<span id="cb72-8"><a href="#cb72-8"></a>example <span class="ot">=</span> <span class="fu">load_example</span>( <span class="at">data_set=</span><span class="st">"multimodal_red_snapper"</span> )</span>
+<span id="cb72-9"><a href="#cb72-9"></a>data_ex2_1 <span class="ot">&lt;-</span> example<span class="sc">$</span>sampling_data <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(Data_type <span class="sc">==</span> <span class="st">"Biomass_KG"</span>)</span>
+<span id="cb72-10"><a href="#cb72-10"></a></span>
+<span id="cb72-11"><a href="#cb72-11"></a><span class="co"># Make settings</span></span>
+<span id="cb72-12"><a href="#cb72-12"></a>settings <span class="ot">=</span> <span class="fu">make_settings</span>( <span class="at">n_x =</span> <span class="dv">250</span>,</span>
+<span id="cb72-13"><a href="#cb72-13"></a>  <span class="at">Region =</span> example<span class="sc">$</span>Region,</span>
+<span id="cb72-14"><a href="#cb72-14"></a>  <span class="at">purpose =</span> <span class="st">"index2"</span>,</span>
+<span id="cb72-15"><a href="#cb72-15"></a>  <span class="at">strata.limits =</span> example<span class="sc">$</span>strata.limits )</span>
+<span id="cb72-16"><a href="#cb72-16"></a></span>
+<span id="cb72-17"><a href="#cb72-17"></a><span class="co"># Change `ObsModel` to indicate type of data for level of `e_i`</span></span>
+<span id="cb72-18"><a href="#cb72-18"></a>settings<span class="sc">$</span>ObsModel <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>)</span>
+<span id="cb72-19"><a href="#cb72-19"></a></span>
+<span id="cb72-20"><a href="#cb72-20"></a>fit <span class="ot">=</span> <span class="fu">fit_model</span>( <span class="at">settings =</span> settings,</span>
+<span id="cb72-21"><a href="#cb72-21"></a>  <span class="at">Lat_i =</span> data_ex2_1[,<span class="st">'Lat'</span>],</span>
+<span id="cb72-22"><a href="#cb72-22"></a>  <span class="at">Lon_i =</span> data_ex2_1[,<span class="st">'Lon'</span>],</span>
+<span id="cb72-23"><a href="#cb72-23"></a>  <span class="at">t_i =</span> data_ex2_1[,<span class="st">'Year'</span>],</span>
+<span id="cb72-24"><a href="#cb72-24"></a>  <span class="at">c_i =</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">nrow</span>(data_ex2_1)),</span>
+<span id="cb72-25"><a href="#cb72-25"></a>  <span class="at">b_i =</span> data_ex2_1[,<span class="st">'Response_variable'</span>],</span>
+<span id="cb72-26"><a href="#cb72-26"></a>  <span class="at">a_i =</span> data_ex2_1[,<span class="st">'AreaSwept_km2'</span>],</span>
+<span id="cb72-27"><a href="#cb72-27"></a>  <span class="co">#e_i = as.numeric(data_ex2[,'Data_type'])-1, # to link to `ObsModel` to indicate type of data for level </span></span>
+<span id="cb72-28"><a href="#cb72-28"></a>  <span class="co">#Q1_formula = Q1_formula,</span></span>
+<span id="cb72-29"><a href="#cb72-29"></a>  <span class="co">#catchability_data = catchability_data,</span></span>
+<span id="cb72-30"><a href="#cb72-30"></a>  <span class="at">working_dir =</span>dir_ex2_1 )</span>
+<span id="cb72-31"><a href="#cb72-31"></a></span>
+<span id="cb72-32"><a href="#cb72-32"></a><span class="co"># save</span></span>
+<span id="cb72-33"><a href="#cb72-33"></a><span class="fu">save</span>(fit, <span class="at">file=</span><span class="fu">paste0</span>(dir_ex2_1,<span class="st">"fit.RData"</span>))</span>
+<span id="cb72-34"><a href="#cb72-34"></a></span>
+<span id="cb72-35"><a href="#cb72-35"></a><span class="co"># plot </span></span>
+<span id="cb72-36"><a href="#cb72-36"></a><span class="do">##??FishStatsUtils::plot_maps</span></span>
+<span id="cb72-37"><a href="#cb72-37"></a><span class="fu">plot</span>( fit, <span class="at">working_dir=</span>dir_ex2_1, <span class="at">plot_set=</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">16</span>,<span class="dv">17</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="how---ex2---not-combining-multiple-sources-of-data-only-biomass---some-maps" class="slide level2">
+<h2>HOW - Ex2 - Not Combining multiple sources of data : only biomass - some maps</h2>
+<div class="panel-tabset">
+<ul id="tabset-24" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-24-1">Density <span class="math inline">\(b\)</span></a></li><li><a href="#tabset-24-2">Spatial term pred1 <span class="math inline">\(ω_1\)</span></a></li><li><a href="#tabset-24-3">Spatial term pred2 <span class="math inline">\(ω_2\)</span></a></li><li><a href="#tabset-24-4">Spatio temporal term pred1 <span class="math inline">\(ε_1\)</span></a></li><li><a href="#tabset-24-5">Spatio temporal term pred2 <span class="math inline">\(ε_2\)</span></a></li></ul>
+<div class="tab-content">
+<div id="tabset-24-1">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2_1/ln_density-predicted.png" width="600"></p>
+</figure>
+</div>
+</div>
+<div id="tabset-24-2">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2_1/omega_1-predicted.png" width="800"></p>
+</figure>
+</div>
+</div>
+<div id="tabset-24-3">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2_1/omega_2-predicted.png" width="800"></p>
+</figure>
+</div>
+</div>
+<div id="tabset-24-4">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2_1/epsilon_1-predicted.png" width="600"></p>
+</figure>
+</div>
+</div>
+<div id="tabset-24-5">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2_1/epsilon_2-predicted.png" width="600"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="how---ex2---not-combining-multiple-sources-of-data-only-biomass---some-useful-quantities" class="slide level2">
+<h2>HOW - Ex2 - Not Combining multiple sources of data : only biomass - Some useful quantities</h2>
+<div class="panel-tabset">
+<ul id="tabset-25" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-25-1">Index of abundances (biomass)</a></li><li><a href="#tabset-25-2">Center of gravity</a></li><li><a href="#tabset-25-3">Effective area</a></li><li><a href="#tabset-25-4">Anisotropy</a></li></ul>
+<div class="tab-content">
+<div id="tabset-25-1">
+<p><span class="math display">\[
+b(t,s)=n(t,s)×w(t,s)\\
+I(t)=∑a(s)×b(t,s)
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2_1/Index.png" width="500"></p>
+</figure>
+</div>
+</div>
+<div id="tabset-25-2">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2_1/center_of_gravity.png" width="600"></p>
+</figure>
+</div>
+</div>
+<div id="tabset-25-3">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2_1/Effective_area.png" width="600"></p>
+</figure>
+</div>
+</div>
+<div id="tabset-25-4">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ex2_1/Aniso.png" width="500"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="and-then" class="slide level2">
+<h2>AND THEN ?</h2>
+<div>
+<ul>
+<li class="fragment"><p>We are building a spatiotemporal modelling community on the West coast of France</p>
+<ul>
+<li class="fragment">Important to be <strong>in person</strong></li>
+<li class="fragment">Should we extend to the all country ?</li>
+</ul></li>
+<li class="fragment"><p>A workshop every semester ?</p></li>
+<li class="fragment"><p>Multiple days ?</p></li>
+<li class="fragment"><p>What should be the next workshop</p>
+<ul>
+<li class="fragment"><p>Other case studies from the organisation committee using VAST</p></li>
+<li class="fragment"><p>Participants bring case studies with a specific question</p></li>
+</ul></li>
+<li class="fragment"><p>Packages</p>
+<ul>
+<li class="fragment">not using packages but coding</li>
+<li class="fragment">not using VAST
+<ul>
+<li class="fragment">sdmTMB</li>
+<li class="fragment">INLA</li>
+<li class="fragment">tinyVAST ( I am moving to <a href="https://vast-lib.github.io/tinyVAST/">tinyVAST</a>)</li>
+</ul></li>
+<li class="fragment">A mix of everything</li>
+</ul></li>
+<li class="fragment"><p>Other suggestions ?</p></li>
+</ul>
 </div>
 <div class="footer footer-default">
 
