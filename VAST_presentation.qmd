@@ -292,10 +292,10 @@ $$
 E[b(i)] =n(i)w(i)= p(i)r(i)\\
 $$
 
-$p(i)$ is the predicted encounter probability
+$p(i)$  is the predicted encounter probability
 
 $$
-p(i)= 1-exp(-a_i × n(i) )  
+p(i)= 1-exp(-a_i × n(i))  
 $$
 
 $r(i)$ is the predicted biomass given that the species is encountered
